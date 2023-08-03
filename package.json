@@ -1,0 +1,18 @@
+{
+  "name": "boardgame-test",
+  "version": "0.0.1",
+  "description": "a prototype of a board game server",
+  "main": "main.ts",
+  "scripts": {
+    "start": "tsc --outDir dist -p ./tsconfig.json && node dist/main.js",
+    "eslint": "eslint src/*.ts",
+    "esfix": "eslint --fix src/*.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-google": "^0.14.0",
+    "typescript": "^5.1.6"
+  }
+}
