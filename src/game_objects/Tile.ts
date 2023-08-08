@@ -1,17 +1,16 @@
-import { GameObject } from "./GameObject";
+import { GameObject , DataObject} from "./GameInterfaces";
+import { Vector2D } from "../engine/math";
+class Tile implements DataObject{
+    object? : GameObject | null
 
-class Tile {
-    x: number;
-    y: number;
-
-    object: GameObject | null;
-
-    constructor(x: number, y: number, object: GameObject | null = null){
-        this.x = x;
-        this.y = y;
-        this.object = object;
-
+    constructor(public pos : Vector2D, object: GameObject | null = null){
+        this.object = object
     }
+
+    has_object(){
+        return this.object != null
+    }
+
 
     toString(): string{
         if (this.object != null){
@@ -20,8 +19,6 @@ class Tile {
         return `[ ]`;
     }
 
-
-    
 }
 
 

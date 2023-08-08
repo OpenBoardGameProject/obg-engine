@@ -2,6 +2,8 @@
     "compilerOptions": {
       // ... other options
       "esModuleInterop": true,
-      "resolveJsonModule": true
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "lib": ["dom", "es2018"]
     }
   }

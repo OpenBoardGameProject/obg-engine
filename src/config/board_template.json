@@ -1,0 +1,15 @@
+{
+    "apparence": {
+        "colors":
+        [
+            "#FFFFFF",
+            "#FF0000",
+            "#0000FF"
+        ] 
+    },
+    "properties": {
+        "width": 10,
+        "height": 10
+    }
+
+}

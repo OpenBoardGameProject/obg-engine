@@ -1,16 +1,24 @@
-import { GameObject } from "./GameObject";
+import { ItemConfig } from "../config/config_types";
+import { Color } from "../engine/environments";
+import { GameObject, DataObject } from "./GameInterfaces";
 
-interface Item extends GameObject{
+class Item implements GameObject, DataObject{
+    config : ItemConfig;
+    constructor(config : ItemConfig, public color : Color){
+        this.config = config
+    }
+
+    toRepr(): string {
+        return this.config.apparence.str
+    }
+
+    canMove(): boolean {
+        return false
+    }
+    log_tag?: string;
+
 
 }
 
-class TestItem implements Item{
-    toString(): string {
-        return "⚔";
-    }
-    export(): string {
-        return "TI";
-    }
-}
 
-export { Item, TestItem };
+export { Item };

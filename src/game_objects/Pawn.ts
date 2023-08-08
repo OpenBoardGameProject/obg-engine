@@ -1,28 +1,33 @@
-import { GameObject } from "./GameObject";
-import { TestItem, Item } from "./Item";
+import { GameObject, DataObject } from "./GameInterfaces";
+import { Item } from "./Item";
+import { PawnConfig } from "../config/config_types";
+import { Color } from "../engine/environments";
 
-interface Pawn extends GameObject{
-    move_matrix(): number[][];
-    item: Item | null;
+class Pawn implements GameObject, DataObject{
+    
+    //Config
+    hasBeenPlayed : boolean;
+    config : PawnConfig;
+
+    //In game data
+    item? : Item;
+
+
+    canMove(): boolean {
+        return !this.hasBeenPlayed
+    }
+    
+    toRepr(): string {
+        let item_str = this.item != undefined ? this.item?.toRepr() : ' '
+        return this.config.apparence.str + item_str
+    }
+    constructor(config : PawnConfig, public color : Color){
+        this.config = config;
+    }
+
+
 
 }
 
-class TestPawn implements Pawn{
 
-    item: Item | null = new TestItem();
-
-    move_matrix(): number[][] {
-        return [[1, 1, 1], [1, 1, 1], [1, 1, 1]];
-    }
-
-    toString(): string {
-        const p = "♟";
-        if (this.item != null){
-            return p+this.item.toString();
-        }
-        return p;
-    }
-}
-
-
-export { Pawn, TestPawn };
+export { Pawn };

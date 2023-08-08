@@ -1,0 +1,10 @@
+{
+    "properties":{
+        "move": {
+            "range" : 2
+        }
+    },
+    "apparence":{
+        "str": "♟"
+    }
+}
