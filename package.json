@@ -7,7 +7,7 @@
     "build": "tsc --outDir dist -p ./tsconfig.json",
     "start": "node dist/main.js",
     "watch": "tsc --outDir dist -p ./tsconfig.json --watch",
-    "clean" : "rm -rf dist",
+    "clean": "rm -rf dist",
     "eslint": "eslint src/*.ts",
     "esfix": "eslint --fix src/*.ts"
   },

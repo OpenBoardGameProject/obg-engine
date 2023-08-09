@@ -1,16 +1,16 @@
 
 import board_config from "./config/board_template.json";
+import { GAME_MANAGER } from "./engine/config";
 import { Vector2D } from "./engine/math";
 import { GameManager } from "./managers/GameManager";
-import { PrintBoard } from "./utils/BoardVisualization";
+import { PrintBoard, PrintPositions } from "./utils/BoardVisualization";
+import { DevConsoleView } from "./utils/ConsoleView";
 
 
-const gameManager = new GameManager(board_config);
-
-PrintBoard(gameManager.tiles_manager, gameManager.board)
+const gameManager = GAME_MANAGER;
 
 
-console.log(gameManager.canMovePawn(new Vector2D(0,0), new Vector2D(1, 3) ))
+const consoleView = new DevConsoleView(gameManager);
 
 
 

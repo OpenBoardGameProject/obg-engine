@@ -1,5 +1,6 @@
 import { GameObject , DataObject} from "./GameInterfaces";
 import { Vector2D } from "../engine/math";
+
 class Tile implements DataObject{
     object? : GameObject | null
 
@@ -11,12 +12,16 @@ class Tile implements DataObject{
         return this.object != null
     }
 
+    canMove(dst : Vector2D) : boolean{
+        return this.object?.canMove(this.pos, dst) ?? false
+    }
+
+    canWalkOn(incoming : GameObject) : boolean{
+        return this.object?.is_walkable(incoming) ?? true
+    }
 
     toString(): string{
-        if (this.object != null){
-            return `[${this.object.toString()}]`;
-        }
-        return `[ ]`;
+        return `Tile(${this.pos.x}, ${this.pos.y}) : ${this.object?.toString() ?? "Empty"}`
     }
 
 }

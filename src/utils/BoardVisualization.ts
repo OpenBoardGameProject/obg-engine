@@ -1,5 +1,5 @@
 import { BoardConfig } from "../config/config_types";
-import { Board } from "../game_objects/Board";
+import { Board } from "../engine/board";
 import { Vector2D } from "../engine/math";
 import { TilesManager } from "../managers/TilesManager";
 import { Tile } from "../game_objects/Tile";
@@ -66,7 +66,7 @@ function PrintBoard(tile_manager : TilesManager, board : Board){
             process.stdout.write("\n")
         if (x === 1){
             let tile : Tile= tile_manager.tileByIndex(i)
-            process.stdout.write(`${color_code[tile.object.color]}[${tile.object.toRepr()}]${reset_code}`);
+            process.stdout.write(`${color_code[tile.object.color]}[${tile.object.toRepr().padEnd(2," ")}]${reset_code}`);
         }else{
             process.stdout.write("[  ]");
         }

@@ -2,11 +2,14 @@ import { BoardConfig } from "../config/config_types";
 import { Color, EngineObject } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 
-import { Board } from "../game_objects/Board";
+import { Board } from "../engine/board";
 import { TilesManager } from "./TilesManager";
 import { Logger } from "../utils/Logger";
 import { Pawn } from "../game_objects/Pawn";
 import test_pawn from "../config/pawn_template.json"
+import test_item from "../config/item_template.json"
+import { Item } from "../game_objects/Item";
+import { Building } from "../game_objects/Building";
 
 class GameManager implements EngineObject {
     log_tag?: string = "GAME_MANAGER";
@@ -16,45 +19,45 @@ class GameManager implements EngineObject {
     constructor(boardConfig: BoardConfig) {
         //Init Board
         this.__board = new Board(boardConfig);
-        this.__tiles_manager = new TilesManager(boardConfig);
+        
+        this.__tiles_manager = new TilesManager(this.board);
         this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE), new Vector2D(0,0))
+        this.tiles_manager.dev_additem(new Item(test_item, Color.BLUE), new Vector2D(1,0))
+        this.tiles_manager.dev_addbuilding(new Building({
+            "properties": {
+            },
+            'apparence': {
+                'str' : '🝚 '
+            }
+        }, Color.BLUE), new Vector2D(0,1))
+        this.tiles_manager.dev_addbuilding(new Building({
+            "properties": {
+            },
+            'apparence': {
+                'str' : '🝚 '
+            }
+        }, Color.BLUE), new Vector2D(1,1))
         Logger.log(this, "Game Manager Initialized");
-
     }
 
-
-
-    public canMovePawn(src : Vector2D, dst : Vector2D) : boolean{
+    public canMove(src : Vector2D, dst : Vector2D) : boolean{
         //Check if there is a Pawn on src
-        const tile = this.tiles_manager.tile(src)
-
-        if(!tile.object){
-            Logger.error(this, "Their is no pawn to move")
-            return false
-        }
-        if(!tile.object?.canMove()){
-            Logger.error(this, "This object can't move")
-            return false
-        }
-        if(!(tile.object instanceof Pawn)){
-            Logger.error(this, "This is not a Pawn")
-        }
-
-        const pawn : Pawn = tile.object as Pawn
-
-        const possible_moves = this.board.possible_moves_range(src, pawn.config.properties.move.range)
-        const found = possible_moves.find((pos) => pos.equals(dst))
-        if(found){
-            return !this.tiles_manager.tile(found).has_object()
-        }else
-            return false 
+        return this.tiles_manager.canMove(src, dst)
 
     }
+
+    public move(src : Vector2D, dst : Vector2D){
+        return this.tiles_manager.move(src, dst)
+    }
+
+    
 
 
 
 
     start() {
+        //changes
+    
     }
 
 

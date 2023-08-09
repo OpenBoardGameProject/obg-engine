@@ -19,6 +19,8 @@ public/css/main.css
 # Coverage reports
 coverage
 
+.vscode
+
 # API keys and secrets
 .env
 

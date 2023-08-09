@@ -1,7 +1,7 @@
 import { BoardConfig } from "../config/config_types";
-import { Tile } from "./Tile";
-import { Dir } from "../engine/environments";
-import { Vector2D } from "../engine/math";
+import { to_coord, to_index } from "./math";
+import { Dir } from "./environments";
+import { Vector2D } from "./math";
 /**
  * Board class
  * 
@@ -14,25 +14,70 @@ import { Vector2D } from "../engine/math";
 class Board
 {
     public config : BoardConfig;
-    private adj_matrix_move: number[][] 
+    private readonly backup_matrix: number[][] 
+    private current_adj_matrix_move: number[][]
 
+    get adj_matrix_move(): number[][] {
+        return this.current_adj_matrix_move;
+    }
+
+    
 
     constructor(config : BoardConfig)
     {
         this.config = config;
+
+        this.current_adj_matrix_move = [];
         this.generate_adj_matrix_move();
+        //Copy the matrix
+        this.backup_matrix = Object.assign([], this.adj_matrix_move)
     }
  
     
     public to_index(pos : Vector2D): number
     {
-        return pos.y * this.config.properties.width + pos.x;
+        return to_index(pos, this.config.properties.width)
     }
     public to_coord(index: number): Vector2D
     {
-        return new Vector2D(index % this.config.properties.width, Math.floor(index / this.config.properties.width));
+        return to_coord(index, this.config.properties.width)
     }
 
+    public cut_relations(cut_array : number[][]){
+        //Check if it's the size of the board
+        if (cut_array.length != this.config.properties.width && cut_array[0].length != this.config.properties.height){
+            throw new Error("Cut array is not the size of the board");
+        }
+        cut_array.forEach((row, x) => {
+            row.forEach((value, y) => {
+                if(value == 0){
+                    this.restore_relations(new Vector2D(x, y));
+                }else
+                {
+                    this.cut_relation(new Vector2D(x, y));
+                }
+            });
+        });
+    }
+
+    public cut_relation(pos : Vector2D){
+        const index = this.to_index(pos);
+        const size = this.config.properties.width * this.config.properties.height;
+
+        // Set all the column items at 0 (x=x , y=[0, height])
+        for (let i = 0; i < size; i++) {
+            this.adj_matrix_move[i][index] = 0;
+        }
+    }
+    public restore_relations(pos : Vector2D){
+        const index = this.to_index(pos);
+        const size = this.config.properties.width * this.config.properties.height;
+
+        // Set all the column items at 0 (x=x , y=[0, height])
+        for (let i = 0; i < size; i++) {
+            this.adj_matrix_move[i][index] = this.backup_matrix[i][index];
+        }
+    }
 
     private generate_adj_matrix_move(){
         const size = this.config.properties.width * this.config.properties.height;
@@ -40,7 +85,6 @@ class Board
         const width = this.config.properties.width;
         const out_of_bound = (index : number) => index < 0 || index >= size;
 
-        this.adj_matrix_move = [];
         for (let index = 0; index < size; index++)
         {
             this.adj_matrix_move[index] = [];
@@ -88,23 +132,6 @@ class Board
                 return this.to_coord(i);
             return null;
         }).filter((pos) => pos != null);
-    }
-    public possible_moves_range(pos : Vector2D, range : number): Vector2D[]
-    {
-        function pos_move_rec(pos: Vector2D, range: number, moves: Vector2D[], board: Board){
-            if (range == 0)
-                return;
-            const moves_pos = board.possible_moves(pos);
-            moves_pos.forEach((move) => {
-                if (!moves.includes(move))
-                    moves.push(move);
-                pos_move_rec(move, range - 1, moves, board);
-            });
-        }
-        const moves = [];
-        pos_move_rec(pos, range, moves, this);
-        //Remove duplicate
-        return moves.filter((move) => !move.equals(pos));
     }
 
     

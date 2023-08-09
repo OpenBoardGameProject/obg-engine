@@ -14,6 +14,12 @@ export class Vector2D{
     equals(other : Vector2D) : boolean{
         return this.x == other.x && this.y == other.y;
     }
+
+    static from_str(str : string) : Vector2D{
+        str = str.replace('(', '').replace(')', '');
+        let [x, y] = str.split(',').map(x => parseInt(x));
+        return new Vector2D(x, y);
+    }
     
 
 }
