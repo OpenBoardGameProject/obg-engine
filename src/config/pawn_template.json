@@ -2,7 +2,15 @@
     "properties":{
         "move": {
             "range" : 2
-        }
+        },
+        "attack": {
+            "range" : 1,
+            "damage" : 1
+        },
+        "defense":{
+            "reduce": 1
+        },
+        "health": 10
     },
     "apparence":{
         "str": "♟"

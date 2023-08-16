@@ -1,7 +1,7 @@
 import { exit } from "process";
 import { Vector2D } from "../engine/math";
 import { GameManager } from "../managers/GameManager";
-import { PrintBoard } from "./BoardVisualization";
+import { PrintBoard, PrintPositions } from "./BoardVisualization";
 import * as readline from "readline";
 import { Pawn } from "../game_objects/Pawn";
 
@@ -26,7 +26,6 @@ class ConsoleView{
         PrintBoard(this.game.tiles_manager, this.game.board)
     }
     public onCommandTrigger(command : string, args : string[]) : object{
-        this.render()
         return {'message' : "Command success", 'is_error' : false}
     }
 
@@ -35,13 +34,32 @@ class ConsoleView{
             case 'quit':
                 exit(0)
             case 'print':
-                if(!this.hasCorrectArgs(args,1)){
+                if(!this.hasCorrectArgs(args,1) && !this.hasCorrectArgs(args,3)){
                     return this.wrong_args_error
                 }
-                const arg = args[0]
-                const src_2 : Vector2D = Vector2D.from_str(arg)
-                console.log(this.game.tiles_manager.tile(src_2).toString())
-                return {'message' : 'Printed', 'is_error' : false}
+                if (args.length == 1 && args[0].includes(',')){
+                    const arg = args[0]
+                    const src_2 : Vector2D = Vector2D.from_str(arg)
+                    console.log(this.game.tiles_manager.tile(src_2).toString())
+                    return {'message' : 'Printed', 'is_error' : false}
+                }else{
+                    switch(args[0]){
+                        case 'attack' :
+                            PrintPositions(this.game.board, this.game.tiles_manager.possibleAttacks(Vector2D.from_str(args[1]), Number(args[2]) ))
+                            break;
+                        case 'move' :
+                            PrintPositions(this.game.board, this.game.tiles_manager.possibleMoves(Vector2D.from_str(args[1]), Number(args[2]) ))
+                            break;
+                        case 'health' :
+                            for(let pawn of this.game.tiles_manager.objects((object) => object instanceof Pawn)){
+                                console.log(pawn.toString() + " : " + (pawn as Pawn).health.toString())
+                            }
+                            break;
+                        default:
+                            return this.wrong_args_error
+                        }
+                    return {'message' : 'Printed', 'is_error' : false}
+                }
             default:
                 return {'nocommand' : true}
         }
@@ -69,7 +87,7 @@ class ConsoleView{
         else{
             console.log(output['message'])
         }
-        
+        this.render()
         this.rl.question(">", (input) => this.processInput(input))
         
     }

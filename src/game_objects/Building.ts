@@ -10,7 +10,8 @@ export class Building implements GameObject{
         this.color = color
     }
 
-
+    //Engine
+    log_tag?: string = "BUILDING";
     color: Color;
     toString(): string {
         return "BUILDING()"
@@ -19,6 +20,8 @@ export class Building implements GameObject{
     toRepr(): string {
         return this.config.apparence.str 
     }
+
+    //Game Logic
     can_pass_through(incoming: GameObject): boolean {
         return false
     }
@@ -28,9 +31,23 @@ export class Building implements GameObject{
     canMove(src: Vector2D, dst: Vector2D): boolean {
         return false
     }
+    canAttack(src: Vector2D, dst: Vector2D): boolean {
+        return false
+    }
+    is_attackable(incoming: GameObject): boolean {
+        return false    
+    }
+
+    //Action
     processIncomingObject(object: GameObject): void {
         return
     }
-    log_tag?: string = "BUILDING";
+    processIncomingAttack(object: GameObject): void {
+        return
+    }
+    processIncomingDefense(object: GameObject): void {
+        return
+    }
+
     
 }

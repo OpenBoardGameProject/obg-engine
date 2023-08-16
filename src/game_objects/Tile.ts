@@ -8,14 +8,17 @@ class Tile implements DataObject{
         this.object = object
     }
 
-    has_object(){
+    get has_object(){
         return this.object != null
     }
 
     canMove(dst : Vector2D) : boolean{
         return this.object?.canMove(this.pos, dst) ?? false
     }
-
+    canAttack(dst : Vector2D) : boolean{
+        return this.object?.canAttack(this.pos, dst) ?? false
+    }
+    
     canWalkOn(incoming : GameObject) : boolean{
         return this.object?.is_walkable(incoming) ?? true
     }

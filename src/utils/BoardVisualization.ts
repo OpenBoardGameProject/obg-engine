@@ -56,7 +56,7 @@ function PrintBoard(tile_manager : TilesManager, board : Board){
     filler.fill(0,0,size);
     filler = filler.map((_,i) => {
         const tile = tile_manager.tileByIndex(i)
-        return (tile.has_object() ? 1 : 0)
+        return (tile.has_object ? 1 : 0)
     });
 
 

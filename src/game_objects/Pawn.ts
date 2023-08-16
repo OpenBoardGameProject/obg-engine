@@ -4,6 +4,7 @@ import { PawnConfig } from "../config/config_types";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { Logger } from "../utils/Logger";
+import { OnlyPawn } from "../engine/preconditionners/type_cond";
 import { GAME_MANAGER } from "../engine/config";
 
 class Pawn implements GameObject, DataObject{
@@ -15,7 +16,10 @@ class Pawn implements GameObject, DataObject{
 
     //In game data
     item? : Item;
-
+    _health : number;
+    get health() : number {
+        return this._health
+    }
 
     
  
@@ -26,44 +30,74 @@ class Pawn implements GameObject, DataObject{
     }
     constructor(config : PawnConfig, public color : Color){
         this.config = config;
+        this._health = config.properties.health;
     }
     toString(): string {
-        return `PAWN() : ${this.item?.toString() ?? "Empty"}`
+        return `PAWN(C:${Color[this.color]}, H:${this.health}) : ${this.item?.toString() ?? "Empty"}`
     }
 
+
+    //Game Logic
     get has_item(): boolean {
         return this.item != undefined
     }
-
-    
-    equip(item : Item){
-        this.item = item
-    }
-
     is_walkable(incoming : GameObject): boolean {
         return false
+    }
+    @OnlyPawn
+    is_attackable(incoming: Pawn): boolean {
+        return incoming.color != this.color
     }
 
     can_pass_through(incoming: GameObject): boolean {
         return false
     }
 
-    processIncomingObject(object: GameObject): void {
-        
-    }
-
-
-
     canMove(src: Vector2D, dst: Vector2D): boolean {
         if(this.hasBeenPlayed){
             Logger.error(this, "Pawn has already been played")
             return false
         }
-        const possible_moves = GAME_MANAGER.tiles_manager.possible_moves(src, this.config.properties.move.range)
+        const possible_moves = GAME_MANAGER.tiles_manager.possibleMoves(src, this.config.properties.move.range)
         return possible_moves.find((pos) => pos.equals(dst)) != undefined
+    }
+    canAttack(src: Vector2D, dst: Vector2D): boolean {
+        if(this.hasBeenPlayed){
+            Logger.error(this, "Pawn has already been played")
+            return false
+        }
+        const possible_attacks = GAME_MANAGER.tiles_manager.possibleAttacks(src, this.item?.config.properties.attack.range ?? this.config.properties.attack.range)
+        return possible_attacks.find((pos) => pos.equals(dst)) != undefined
+    }
+
+    //Action
+
+    //PAWN
+    equip(item : Item){
+        this.item = item
+    }
+    get attack() : number {
+        return (this.config.properties.attack.damage + (this.item?.config.properties.attack.damage ?? 0)) * (this.item?.config.properties.attack.multiplier ?? 1)
+    }
+    get defense() : number {
+        return (this.config.properties.defense.reduce + (this.item?.config.properties.defense.reduce ?? 0)) * (this.item?.config.properties.defense.multiplier ?? 1)
     }
 
 
+
+    //GAMEOBJECT
+    processIncomingObject(object: GameObject): void {
+        return
+    }
+    @OnlyPawn
+    processIncomingAttack(object: Pawn): void {
+        this._health -= object.attack - this.defense
+    }
+
+    @OnlyPawn
+    processIncomingDefense(object: Pawn): void {
+        return
+    }
 
 }
 

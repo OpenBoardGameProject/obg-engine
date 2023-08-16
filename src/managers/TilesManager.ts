@@ -6,10 +6,15 @@ import { Pawn } from "../game_objects/Pawn";
 import { Item } from "../game_objects/Item";
 import { BoardConfig } from "../config/config_types";
 import { Building } from "../game_objects/Building";
+import { Color } from "../engine/environments";
+import { GameManager } from "./GameManager";
+import { GameObject } from "../game_objects/GameInterfaces";
 export class TilesManager{
     public readonly tiles : Tile[] = [];
     private board : Board;
     private config : BoardConfig
+
+    
 
     constructor(board: Board){
         this.board = board;
@@ -35,6 +40,12 @@ export class TilesManager{
         return to_coord(index, this.config.properties.width);
     }
 
+    objects(filter : (object : GameObject) => boolean = undefined) : GameObject[]{
+        if(filter)
+            return this.tiles.filter((tile) => tile.has_object).map((tile) => tile.object).filter(filter)
+        else
+            return this.tiles.filter((tile) => tile.has_object).map((tile) => tile.object)
+    }
 
     private generate_tiles(){
         const size = this.config.properties.width * this.config.properties.height;
@@ -43,40 +54,35 @@ export class TilesManager{
             this.tiles[index] = new Tile(this.to_coord(index));
         }
     }
-    // public possible_moves_range(pos : Vector2D, range : number): Vector2D[]
-    // {
-    //     function pos_move_rec(pos: Vector2D, range: number, moves: Vector2D[], board: Board){
-    //         if (range == 0)
-    //             return;
-    //         const moves_pos = board.possible_moves(pos);
-    //         moves_pos.forEach((move) => {
-    //             if (!moves.includes(move))
-    //                 moves.push(move);
-    //             pos_move_rec(move, range - 1, moves, board);
-    //         });
-    //     }
-    //     const moves = [];
-    //     pos_move_rec(pos, range, moves, this);
-    //     //Remove duplicate
-    //     return moves.filter((move) => !move.equals(pos));
-    // }
 
 
-    public possible_moves(src: Vector2D, range: number = 1): Vector2D[]
+    public possibleMoves(src: Vector2D, range: number = 1, filter: (Vector2D) => boolean = undefined): Vector2D[]
     {
         if(range == 0)
             return []
         const moves = this.board.possible_moves(src)
-        const moves_filtered = moves.filter((move) => this.tile(move).object?.can_pass_through(undefined) ?? true)
+        console.log(moves)
+        const moves_filtered = !filter ? moves.filter((move) => this.tile(move).object?.can_pass_through(undefined) ?? true) : moves.filter(filter)
+        console.log(moves_filtered)
         const moves_filtered_unique = moves_filtered.filter((move) => !move.equals(src))
 
-        const moves_rec = moves_filtered_unique.flatMap((move) => this.possible_moves(move, range - 1))
+        const moves_rec = moves_filtered_unique.flatMap((move) => this.possibleMoves(move, range - 1, filter))
         return [...moves_filtered_unique, ...moves_rec]
+    }
+    public possibleAttacks(src: Vector2D, range: number = 1): Vector2D[]
+    {   
+        const color = this.tile(src).object?.color ?? Color.WHITE
+        return this.possibleMoves(src, range, (pos) => true).filter((move) => this.tile(move).has_object && this.tile(move).object?.is_attackable(this.tile(src).object??undefined))
     }
 
     public canMove(src: Vector2D, dst: Vector2D): boolean {
         return this.tile(src).canMove(dst) && this.tile(dst).canWalkOn(this.tile(src).object ?? undefined)
     }
+
+    public canAttack(src: Vector2D, dst: Vector2D): boolean {
+        return this.tile(src).canAttack(dst) && this.tile(dst).canWalkOn(this.tile(src).object ?? undefined)
+    }
+
     public move(src: Vector2D, dst: Vector2D): boolean {
         if (!this.canMove(src, dst))
             return false
@@ -90,6 +96,19 @@ export class TilesManager{
         src_tile.object = undefined
 
         return true
+    }
+    public attack(src : Vector2D, dst : Vector2D) : boolean{
+        if(!this.canAttack(src, dst))
+            return false
+        
+        const src_tile = this.tile(src)
+        const dst_tile = this.tile(dst)
+
+        dst_tile.object?.processIncomingAttack(src_tile.object)
+        src_tile.object?.processIncomingDefense(dst_tile.object)
+
+        return true
+
     }
 
 

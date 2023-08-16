@@ -4,11 +4,6 @@ import { EngineObject } from "../engine/environments";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 
-type Context = {
-    game_object : GameObject,
-    is_pawn : boolean,
-    is_item : boolean,
-}
 
 interface GameObject extends EngineObject{
     color: Color;
@@ -20,7 +15,13 @@ interface GameObject extends EngineObject{
     can_pass_through(incoming : GameObject) : boolean;
     is_walkable(incoming : GameObject) : boolean;
     canMove(src : Vector2D, dst : Vector2D) : boolean;
+    canAttack(src : Vector2D, dst : Vector2D) : boolean;
+    is_attackable(incoming : GameObject) : boolean;
+
+    //Action
     processIncomingObject(object : GameObject) : void;
+    processIncomingAttack(object : GameObject) : void;
+    processIncomingDefense(object : GameObject) : void;
 
 }
 
