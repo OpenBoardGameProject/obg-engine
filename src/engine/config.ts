@@ -3,4 +3,4 @@ import { GameManager } from "../managers/GameManager";
 import * as dotenv from "dotenv";
 export const GAME_MANAGER = new GameManager(board_config);
 
-dotenv.config();
+dotenv.config({path : '.env.dev'});
