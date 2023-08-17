@@ -41,6 +41,10 @@ class Item implements GameObject, DataObject{
         return false
     }
 
+    is_dead(): boolean {
+        return false
+    }
+
     //Action
     @OnlyPawn
     processIncomingObject(object: Pawn): void {
@@ -52,6 +56,9 @@ class Item implements GameObject, DataObject{
     }
     processIncomingDefense(object: GameObject): void {
         return
+    }
+    processDeath(): void {
+        return;
     }
 
 

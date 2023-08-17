@@ -74,7 +74,8 @@ class ConsoleView{
     private processInput(input : string){
 
         //RESET CONSOLE
-        console.clear()
+        if(process.env.AUTO_CLEAR)
+            console.clear()
 
         let args = input.split(" ");
         let command = args[0];

@@ -11,7 +11,7 @@
             "type" : "physical"
         },
         "defense" : {
-            "reduce" : 1,
+            "reduce" : 0,
             "multiplier" : 1,
             "type" : "physical"
         }

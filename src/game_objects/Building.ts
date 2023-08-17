@@ -37,6 +37,9 @@ export class Building implements GameObject{
     is_attackable(incoming: GameObject): boolean {
         return false    
     }
+    is_dead(): boolean {
+        return false
+    }
 
     //Action
     processIncomingObject(object: GameObject): void {
@@ -48,6 +51,8 @@ export class Building implements GameObject{
     processIncomingDefense(object: GameObject): void {
         return
     }
-
+    processDeath(): void {
+        return
+    }
     
 }

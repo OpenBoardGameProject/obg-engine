@@ -7,6 +7,8 @@ import { Logger } from "../utils/Logger";
 import { OnlyPawn } from "../engine/preconditionners/type_cond";
 import { GAME_MANAGER } from "../engine/config";
 import { PrintPositions } from "../utils/BoardVisualization";
+import { Tile } from "./Tile";
+import { CurrentTile } from "../engine/preconditionners/get_cond";
 
 class Pawn implements GameObject, DataObject{
     
@@ -34,7 +36,7 @@ class Pawn implements GameObject, DataObject{
         this._health = config.properties.health;
     }
     toString(): string {
-        return `PAWN(C:${Color[this.color]}, H:${this.health}) : ${this.item?.toString() ?? "Empty"}`
+        return `PAWN(C:${Color[this.color]}, H:${this.health}, P:${this.hasBeenPlayed}) : ${this.item?.toString() ?? "Empty"}`
     }
 
 
@@ -73,6 +75,9 @@ class Pawn implements GameObject, DataObject{
         Logger.error(this, "No possible attacks")
         return false
     }
+    is_dead(): boolean {
+        return this.health <= 0
+    }
 
     //Action
 
@@ -101,7 +106,13 @@ class Pawn implements GameObject, DataObject{
 
     @OnlyPawn
     processIncomingDefense(object: Pawn): void {
-        return
+        if(!process.env.INFINITY_TURN)
+            this.hasBeenPlayed = true
+    }
+
+    @CurrentTile
+    processDeath(current? : Tile): void {
+        current.object = this.item ?? null
     }
 
 }

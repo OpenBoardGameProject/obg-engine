@@ -3,6 +3,8 @@ import { GameObjectConfig } from "../config/config_types";
 import { EngineObject } from "../engine/environments";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
+import { CurrentTile } from "../engine/preconditionners/get_cond";
+import { Tile } from "./Tile";
 
 
 interface GameObject extends EngineObject{
@@ -17,11 +19,13 @@ interface GameObject extends EngineObject{
     canMove(src : Vector2D, dst : Vector2D) : boolean;
     canAttack(src : Vector2D, dst : Vector2D) : boolean;
     is_attackable(incoming : GameObject) : boolean;
+    is_dead(tile? : Tile) : boolean;
 
     //Action
     processIncomingObject(object : GameObject) : void;
     processIncomingAttack(object : GameObject) : void;
     processIncomingDefense(object : GameObject) : void;
+    processDeath() : void;
 
 }
 

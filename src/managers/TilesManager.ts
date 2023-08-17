@@ -110,6 +110,14 @@ export class TilesManager{
         dst_tile.object?.processIncomingAttack(src_tile.object)
         src_tile.object?.processIncomingDefense(dst_tile.object)
 
+        if(dst_tile.object?.is_dead()){
+            dst_tile.object?.processDeath()
+        }
+
+        if(src_tile.object?.is_dead()){
+            src_tile.object?.processDeath()
+        }
+
         return true
 
     }
