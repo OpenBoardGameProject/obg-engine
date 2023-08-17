@@ -79,48 +79,56 @@ class Board
         }
     }
 
-    private generate_adj_matrix_move(){
+    private generate_adj_matrix_move() {
         const size = this.config.properties.width * this.config.properties.height;
         const height = this.config.properties.height;
         const width = this.config.properties.width;
-        const out_of_bound = (index : number) => index < 0 || index >= size;
-
-        for (let index = 0; index < size; index++)
-        {
+        const out_of_bound = (index: number) => index < 0 || index >= size;
+    
+        for (let index = 0; index < size; index++) {
             this.adj_matrix_move[index] = [];
-            for (let i = 0; i < size; i++)
-            {
-                //Assign 8 directions to each near i 
-                if (i == index + 1 && index + 1 % width != 0 && !out_of_bound(index + 1)){
-                    this.adj_matrix_move[index][i] = Dir.E;
+            const row = Math.floor(index / width);
+            const col = index % width;
+    
+            for (let i = 0; i < size; i++) {
+                const row_i = Math.floor(i / width);
+                const col_i = i % width;
+    
+                if (
+                    (Math.abs(row - row_i) <= 1) &&
+                    (Math.abs(col - col_i) <= 1) &&
+                    (row !== row_i || col !== col_i) &&
+                    !out_of_bound(i)
+                ) {
+                    // Calculate direction based on the difference in rows and columns
+                    const dir_row = row_i - row;
+                    const dir_col = col_i - col;
+    
+                    let direction: Dir;
+    
+                    if (dir_row === -1) {
+                        if (dir_col === -1) direction = Dir.NW;
+                        else if (dir_col === 0) direction = Dir.N;
+                        else direction = Dir.NE;
+                    } else if (dir_row === 0) {
+                        if (dir_col === -1) direction = Dir.W;
+                        else if (dir_col === 0) direction = 0;
+                        else direction = Dir.E;
+                    } else {
+                        if (dir_col === -1) direction = Dir.SW;
+                        else if (dir_col === 0) direction = Dir.S;
+                        else direction = Dir.SE;
+                    }
+    
+                    this.adj_matrix_move[index][i] = direction;
+                } else {
+                    this.adj_matrix_move[index][i] = 0;
                 }
-                else if (i == index - 1 && index % width != 0 && !out_of_bound(index - 1)){
-                    this.adj_matrix_move[index][i] = Dir.W;
-                }
-                else if (i == index + width && !out_of_bound(index + width)){
-                    this.adj_matrix_move[index][i] = Dir.S;
-                }
-                else if (i == index - width && !out_of_bound(index - width)){
-                    this.adj_matrix_move[index][i] = Dir.N;
-                }
-                else if (i == index + width + 1 && index + 1 % width != 0 && !out_of_bound(index + width + 1)){
-                    this.adj_matrix_move[index][i] = Dir.SE;
-                }
-                else if (i == index + width - 1 && index % width != 0 && !out_of_bound(index + width - 1)){
-                    this.adj_matrix_move[index][i] = Dir.SW;
-                }   
-                else if (i == index - width + 1 && index + 1 % width != 0 && !out_of_bound(index - width + 1)){
-                    this.adj_matrix_move[index][i] = Dir.NE;
-                }
-                else if (i == index - width - 1 && index % width != 0 && !out_of_bound(index - width - 1)){
-                    this.adj_matrix_move[index][i] = Dir.NW;
-                }
-                else
-                    this.adj_matrix_move[index][i] = 0;                    
-
             }
         }
     }
+    
+    
 
 
 

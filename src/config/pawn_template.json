@@ -4,11 +4,11 @@
             "range" : 2
         },
         "attack": {
-            "range" : 1,
+            "range" : 2,
             "damage" : 1
         },
         "defense":{
-            "reduce": 1
+            "reduce": 0
         },
         "health": 10
     },

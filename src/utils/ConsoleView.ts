@@ -51,8 +51,8 @@ class ConsoleView{
                             PrintPositions(this.game.board, this.game.tiles_manager.possibleMoves(Vector2D.from_str(args[1]), Number(args[2]) ))
                             break;
                         case 'health' :
-                            for(let pawn of this.game.tiles_manager.objects((object) => object instanceof Pawn)){
-                                console.log(pawn.toString() + " : " + (pawn as Pawn).health.toString())
+                            for(let tile of this.game.tiles_manager.tiles_with_objects((object) => object instanceof Pawn)){
+                                console.log(tile.pos.toString() + " : " + (tile.object as Pawn).health.toString())
                             }
                             break;
                         default:
@@ -72,6 +72,10 @@ class ConsoleView{
     }
 
     private processInput(input : string){
+
+        //RESET CONSOLE
+        console.clear()
+
         let args = input.split(" ");
         let command = args[0];
         args = args.slice(1);
@@ -82,7 +86,6 @@ class ConsoleView{
         if(output['is_error'])
         {
             console.log("Wrong command : "+output['message'])
-            this.render()
         }
         else{
             console.log(output['message'])
@@ -105,6 +108,13 @@ class DevConsoleView extends ConsoleView{
         return {'message' : "Moved", 'is_error' : false}
     }
 
+    attack(src : Vector2D, dst : Vector2D){
+        if(!this.game.attack(src, dst)){
+            return {'message' : "Can't attack", 'is_error' : true}
+        }
+        return {'message' : "Attacked", 'is_error' : false}
+    }
+
 
     public override onCommandTrigger(command : string, args : string[]) : object{
         switch(command){
@@ -112,8 +122,12 @@ class DevConsoleView extends ConsoleView{
                 if(!this.hasCorrectArgs(args,2)){
                     return this.wrong_args_error
                 }
-                this.move(Vector2D.from_str(args[0]), Vector2D.from_str(args[1]))
-                break;
+                return this.move(Vector2D.from_str(args[0]), Vector2D.from_str(args[1]))
+            case 'attack':
+                if(!this.hasCorrectArgs(args,2)){
+                    return this.wrong_args_error
+                }
+                return this.attack(Vector2D.from_str(args[0]), Vector2D.from_str(args[1]))
             case 'spawnP':
                 if(!this.hasCorrectArgs(args,2)){
                     return this.wrong_args_error
@@ -125,6 +139,13 @@ class DevConsoleView extends ConsoleView{
                     return this.wrong_args_error
                 }
                 this.game.tiles_manager.dev_additem(new Item(itemTestConfig, Number(args[1])), Vector2D.from_str(args[0]))
+                break;
+            case 'custom':
+                for (let x = 0; x < this.game.board.config.properties.width; x++){
+                    for (let y = 0; y < this.game.board.config.properties.height; y++){
+                        PrintPositions(this.game.board, this.game.board.possible_moves(new Vector2D(x,y)))
+                    }
+                }
                 break;
      
             default:

@@ -6,6 +6,7 @@ import { Vector2D } from "../engine/math";
 import { Logger } from "../utils/Logger";
 import { OnlyPawn } from "../engine/preconditionners/type_cond";
 import { GAME_MANAGER } from "../engine/config";
+import { PrintPositions } from "../utils/BoardVisualization";
 
 class Pawn implements GameObject, DataObject{
     
@@ -67,7 +68,10 @@ class Pawn implements GameObject, DataObject{
             return false
         }
         const possible_attacks = GAME_MANAGER.tiles_manager.possibleAttacks(src, this.item?.config.properties.attack.range ?? this.config.properties.attack.range)
-        return possible_attacks.find((pos) => pos.equals(dst)) != undefined
+        if(possible_attacks.find((pos) => pos.equals(dst)) != undefined)
+            return true
+        Logger.error(this, "No possible attacks")
+        return false
     }
 
     //Action
@@ -90,8 +94,9 @@ class Pawn implements GameObject, DataObject{
         return
     }
     @OnlyPawn
-    processIncomingAttack(object: Pawn): void {
-        this._health -= object.attack - this.defense
+    processIncomingAttack(incoming: Pawn): void {
+        this._health -= incoming.attack - this.defense
+        Logger.log(this, "Pawn has been attacked, health : " + this.health.toString())
     }
 
     @OnlyPawn

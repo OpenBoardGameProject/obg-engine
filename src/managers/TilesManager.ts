@@ -9,6 +9,7 @@ import { Building } from "../game_objects/Building";
 import { Color } from "../engine/environments";
 import { GameManager } from "./GameManager";
 import { GameObject } from "../game_objects/GameInterfaces";
+import { PrintPositions } from "../utils/BoardVisualization";
 export class TilesManager{
     public readonly tiles : Tile[] = [];
     private board : Board;
@@ -20,7 +21,6 @@ export class TilesManager{
         this.board = board;
         this.config = board.config;
         this.generate_tiles();
-
 
     }
     public tile(pos : Vector2D): Tile{
@@ -46,6 +46,13 @@ export class TilesManager{
         else
             return this.tiles.filter((tile) => tile.has_object).map((tile) => tile.object)
     }
+    tiles_with_objects(filter : (object : GameObject) => boolean = undefined) : Tile[]{
+        if(filter)
+            return this.tiles.filter((tile) => tile.has_object).filter((tile) => filter(tile.object))
+        else
+            return this.tiles.filter((tile) => tile.has_object)
+    }
+
 
     private generate_tiles(){
         const size = this.config.properties.width * this.config.properties.height;
@@ -61,17 +68,13 @@ export class TilesManager{
         if(range == 0)
             return []
         const moves = this.board.possible_moves(src)
-        console.log(moves)
         const moves_filtered = !filter ? moves.filter((move) => this.tile(move).object?.can_pass_through(undefined) ?? true) : moves.filter(filter)
-        console.log(moves_filtered)
         const moves_filtered_unique = moves_filtered.filter((move) => !move.equals(src))
-
         const moves_rec = moves_filtered_unique.flatMap((move) => this.possibleMoves(move, range - 1, filter))
         return [...moves_filtered_unique, ...moves_rec]
     }
     public possibleAttacks(src: Vector2D, range: number = 1): Vector2D[]
     {   
-        const color = this.tile(src).object?.color ?? Color.WHITE
         return this.possibleMoves(src, range, (pos) => true).filter((move) => this.tile(move).has_object && this.tile(move).object?.is_attackable(this.tile(src).object??undefined))
     }
 
@@ -80,7 +83,7 @@ export class TilesManager{
     }
 
     public canAttack(src: Vector2D, dst: Vector2D): boolean {
-        return this.tile(src).canAttack(dst) && this.tile(dst).canWalkOn(this.tile(src).object ?? undefined)
+        return this.tile(src).canAttack(dst)
     }
 
     public move(src: Vector2D, dst: Vector2D): boolean {

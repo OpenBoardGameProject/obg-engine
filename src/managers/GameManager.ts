@@ -21,22 +21,23 @@ class GameManager implements EngineObject {
         this.__board = new Board(boardConfig);
         
         this.__tiles_manager = new TilesManager(this.board);
-        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE), new Vector2D(0,0))
-        this.tiles_manager.dev_additem(new Item(test_item, Color.BLUE), new Vector2D(1,0))
+        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE), new Vector2D(3,0))
+        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.RED), new Vector2D(2,0))
+        this.tiles_manager.dev_additem(new Item(test_item, Color.WHITE), new Vector2D(1,0))
         this.tiles_manager.dev_addbuilding(new Building({
             "properties": {
             },
             'apparence': {
                 'str' : '🝚 '
             }
-        }, Color.BLUE), new Vector2D(0,1))
+        }, Color.WHITE), new Vector2D(0,1))
         this.tiles_manager.dev_addbuilding(new Building({
             "properties": {
             },
             'apparence': {
                 'str' : '🝚 '
             }
-        }, Color.BLUE), new Vector2D(1,1))
+        }, Color.WHITE), new Vector2D(1,1))
         Logger.log(this, "Game Manager Initialized");
     }
 
@@ -50,7 +51,9 @@ class GameManager implements EngineObject {
         return this.tiles_manager.move(src, dst)
     }
 
-    
+    public attack(src : Vector2D, dst : Vector2D){
+        return this.tiles_manager.attack(src, dst)
+    }
 
 
 
