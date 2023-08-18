@@ -25,5 +25,4 @@ function replacer(key, value){
     return value;
 }
 
-const serialized = JSON.stringify(gameManager, replacer);
 // console.log(serialized);

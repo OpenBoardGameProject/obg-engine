@@ -8,7 +8,7 @@ import { BoardConfig } from "../config/config_types";
 import { Building } from "../game_objects/base_objects/Building";
 import { Color } from "../engine/environments";
 import { GameManager } from "./GameManager";
-import { GameObject } from "../game_objects/GameInterfaces";
+import { IGameObject } from "../game_objects/GameInterfaces";
 import { PrintPositions } from "../utils/BoardVisualization";
 export class TilesManager{
     public readonly tiles : Tile[] = [];
@@ -40,13 +40,13 @@ export class TilesManager{
         return to_coord(index, this.config.properties.width);
     }
 
-    objects(filter : (object : GameObject) => boolean = undefined) : GameObject[]{
+    objects(filter : (object : IGameObject) => boolean = undefined) : IGameObject[]{
         if(filter)
             return this.tiles.filter((tile) => tile.has_object).map((tile) => tile.object).filter(filter)
         else
             return this.tiles.filter((tile) => tile.has_object).map((tile) => tile.object)
     }
-    tiles_with_objects(filter : (object : GameObject) => boolean = undefined) : Tile[]{
+    tiles_with_objects(filter : (object : IGameObject) => boolean = undefined) : Tile[]{
         if(filter)
             return this.tiles.filter((tile) => tile.has_object).filter((tile) => filter(tile.object))
         else
@@ -93,6 +93,7 @@ export class TilesManager{
         const src_tile = this.tile(src)
         const dst_tile = this.tile(dst)
 
+        src_tile.object.processMove()
         dst_tile.object?.processIncomingObject(src_tile.object)
 
         dst_tile.object = src_tile.object

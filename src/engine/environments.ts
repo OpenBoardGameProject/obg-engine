@@ -1,3 +1,5 @@
+import { type } from "os";
+import { GameManager } from "../managers/GameManager";
 
 enum Dir{
     NO_DIR = 0,
@@ -22,5 +24,10 @@ interface EngineObject {
     log_tag?: string;
 }
 
+type Rule = {
+    name : string,
+    check_victory : (context : GameManager) => Color | undefined
+}
 
 export { Dir , EngineObject, Color};
+export type { Rule };

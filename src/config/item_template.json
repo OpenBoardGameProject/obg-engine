@@ -14,6 +14,12 @@
             "reduce" : 0,
             "multiplier" : 1,
             "type" : "physical"
-        }
+        },
+        "can_pass_through":true,
+        "is_walkable":true,
+        "is_transparent":true,
+        "is_attackable":false,
+        "can_move":false,
+        "can_attack":false
     }
 }

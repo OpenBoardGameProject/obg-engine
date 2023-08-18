@@ -7,13 +7,17 @@ import { PrintPositions } from "./BoardVisualization"
 //CONFIG
 import test_pawn from '../config/pawn_template.json'
 import test_item from '../config/item_template.json'
+import test_building from '../config/building_template.json'
 import { Color } from "../engine/environments"
 import { Item } from "../game_objects/base_objects/Item"
 import { Building } from "../game_objects/base_objects/Building"
+import { Player } from "../engine/player"
 
 
 const WRONG_ARGS_ERROR = {'message' : "Wrong number of arguments", 'is_error' : true}
 const COMMAND_OK = {'message' : "Command success", 'is_error' : false}
+
+
 type CommandCallback = {
     message : string,
     is_error : boolean
@@ -32,7 +36,7 @@ class ConsoleCommand {
     }
 
 
-    execute(...args : string[]) : ConsoleCommand{
+    execute(player : Player,...args : string[]) : ConsoleCommand{
         this.output = COMMAND_OK
         if(args.length < this.minArgs){
             this.output = WRONG_ARGS_ERROR
@@ -48,14 +52,14 @@ class MoveCommand extends ConsoleCommand{
         super("move", 2, "move src dst", context)
     }
 
-    execute(...args : string[]) : ConsoleCommand{
-        if(super.execute(...args).output.is_error)
+    execute(player : Player, ...args : string[]) : ConsoleCommand{
+        if(super.execute(player, ...args).output.is_error)
         return this
     
         const src = Vector2D.from_str(args[0])
         const dst = Vector2D.from_str(args[1])
 
-        if(!this.context.move(src, dst)){
+        if(!this.context.action_manager(player)?.move(src, dst)){
             this.output = {'message' : "Can't move", 'is_error' : true}
         }
         return this
@@ -67,14 +71,14 @@ class AttackCommand extends ConsoleCommand{
         super("attack", 2, "attack src dst", context)
     }
 
-    execute(...args : string[]) : ConsoleCommand{
-        if(super.execute(...args).output.is_error)
+    execute(player : Player, ...args : string[]) : ConsoleCommand{
+        if(super.execute(player, ...args).output.is_error)
         return this
     
         const src = Vector2D.from_str(args[0])
         const dst = Vector2D.from_str(args[1])
 
-        if(!this.context.attack(src, dst)){
+        if(!this.context.action_manager(player)?.attack(src, dst)){
             this.output = {'message' : "Can't attack", 'is_error' : true}
         }
         return this
@@ -86,8 +90,8 @@ class PrintCommand extends ConsoleCommand{
         super("print", 1, "print", context)
     }
 
-    execute(...args : string[]) : ConsoleCommand{
-        if(super.execute(...args).output.is_error)
+    execute(player : Player, ...args : string[]) : ConsoleCommand{
+        if(super.execute(player, ...args).output.is_error)
         return this
 
         const args_length = args.length
@@ -134,8 +138,8 @@ class SpawnCommand extends ConsoleCommand{
         super("spawn", 2, "spawn pawn pos", context)
     }
 
-    execute(...args : string[]) : ConsoleCommand{
-        if(super.execute(...args).output.is_error)
+    execute(player : Player, ...args : string[]) : ConsoleCommand{
+        if(super.execute(player, ...args).output.is_error)
             return this
 
         const type = args[0]
@@ -154,13 +158,7 @@ class SpawnCommand extends ConsoleCommand{
                 break;
             case 'building':
             case 'b':
-                this.context.tiles_manager.dev_addbuilding(new Building({
-                    "properties": {
-                    },
-                    'apparence': {
-                        'str' : '🝚 '
-                    }
-                }, color), pos)
+                this.context.tiles_manager.dev_addbuilding(new Building(test_building, color), pos)
                 break;
             default:
                 this.output = {'message' : "Unknown type", 'is_error' : true}
@@ -174,7 +172,7 @@ class QuitCommand extends ConsoleCommand{
         super("quit", 0, "quit", context)
     }
 
-    execute(...args : string[]) : ConsoleCommand {
+    execute(player : Player, ...args : string[]) : ConsoleCommand {
         process.exit(0)
         return this
     }
@@ -185,8 +183,8 @@ class NewTurn extends ConsoleCommand{
         super("newturn", 0, "newturn", context)
     }
 
-    execute(...args : string[]) : ConsoleCommand {
-        this.context.nextTurn()
+    execute(player : Player, ...args : string[]) : ConsoleCommand {
+        this.context.action_manager(player)?.nextTurn()
         return this
     }
 }

@@ -1,60 +1,22 @@
-import { GameObjectConfig } from "../../config/config_types";
+import { BuildingConfig, GameObjectConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
 import { Vector2D } from "../../engine/math";
-import { GameObject } from "../GameInterfaces";
+import { GameObject } from "../GameObject";
+import { IGameObject } from "../GameInterfaces";
 
-export class Building implements GameObject{
+export class Building extends GameObject{
+    log_tag?: string = "BUILDING";
+    color: Color;
+    config: BuildingConfig;
 
-    constructor(config: GameObjectConfig, color: Color){
-        this.config = config
-        this.color = color
+
+    constructor(config: BuildingConfig, color: Color){
+        super(config, color)
     }
 
     //Engine
-    log_tag?: string = "BUILDING";
-    color: Color;
+
     toString(): string {
         return "BUILDING()"
-    }
-    config: GameObjectConfig;
-    toRepr(): string {
-        return this.config.apparence.str 
-    }
-
-    //Game Logic
-    can_pass_through(incoming: GameObject): boolean {
-        return false
-    }
-    is_walkable(incoming: GameObject): boolean {
-        return false
-    }
-    canMove(src: Vector2D, dst: Vector2D): boolean {
-        return false
-    }
-    canAttack(src: Vector2D, dst: Vector2D): boolean {
-        return false
-    }
-    is_attackable(incoming: GameObject): boolean {
-        return false    
-    }
-    is_dead(): boolean {
-        return false
-    }
-
-    //Action
-    processIncomingObject(object: GameObject): void {
-        return
-    }
-    processIncomingAttack(object: GameObject): void {
-        return
-    }
-    processIncomingDefense(object: GameObject): void {
-        return
-    }
-    processDeath(): void {
-        return
-    }
-    processNewTurn(): void {
-        return
     }
 }

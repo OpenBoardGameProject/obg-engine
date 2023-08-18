@@ -1,4 +1,4 @@
-import { GameObject, DataObject } from "../GameInterfaces";
+import { IGameObject, DataObject } from "../GameInterfaces";
 import { Item } from "./Item";
 import { PawnConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
@@ -6,11 +6,12 @@ import { Vector2D } from "../../engine/math";
 import { Logger } from "../../utils/Logger";
 import { OnlyPawn } from "../../engine/preconditionners/type_cond";
 import { GAME_MANAGER } from "../../engine/config";
-import { PrintPositions } from "../../utils/BoardVisualization";
 import { Tile } from "../../engine/tile";
 import { CurrentTile } from "../../engine/preconditionners/get_cond";
+import { HasBeenPlayed, TriggerPlayed } from "../../engine/preconditionners/logic_cond";
+import { GameObject } from "../GameObject";
 
-class Pawn implements GameObject, DataObject{
+class Pawn extends GameObject implements DataObject{
     
     //Config
     log_tag?: string = "PAWN";
@@ -24,51 +25,37 @@ class Pawn implements GameObject, DataObject{
         return this._health
     }
 
+    constructor(config : PawnConfig, public color : Color){
+        super(config, color)
+        this._health = config.properties.health
+    }
     
- 
-    
+    //INTERNAL
+    toString(): string {
+        return `PAWN(C:${Color[this.color]}, H:${this.health}, P:${this.hasBeenPlayed}) : ${this.item?.toString() ?? "Empty"}`
+    }
     toRepr(): string {
         let item_str = this.item != undefined ? this.item?.toRepr() : ""
         return this.config.apparence.str + item_str
     }
-    constructor(config : PawnConfig, public color : Color){
-        this.config = config;
-        this._health = config.properties.health;
-    }
-    toString(): string {
-        return `PAWN(C:${Color[this.color]}, H:${this.health}, P:${this.hasBeenPlayed}) : ${this.item?.toString() ?? "Empty"}`
-    }
-
 
     //Game Logic
     get has_item(): boolean {
         return this.item != undefined
     }
-    is_walkable(incoming : GameObject): boolean {
-        return false
-    }
+
     @OnlyPawn
     is_attackable(incoming: Pawn): boolean {
         return incoming.color != this.color
     }
 
-    can_pass_through(incoming: GameObject): boolean {
-        return false
-    }
-
+    @HasBeenPlayed
     canMove(src: Vector2D, dst: Vector2D): boolean {
-        if(this.hasBeenPlayed){
-            Logger.error(this, "Pawn has already been played")
-            return false
-        }
         const possible_moves = GAME_MANAGER.tiles_manager.possibleMoves(src, this.config.properties.move.range)
         return possible_moves.find((pos) => pos.equals(dst)) != undefined
     }
+    @HasBeenPlayed
     canAttack(src: Vector2D, dst: Vector2D): boolean {
-        if(this.hasBeenPlayed){
-            Logger.error(this, "Pawn has already been played")
-            return false
-        }
         const possible_attacks = GAME_MANAGER.tiles_manager.possibleAttacks(src, this.item?.config.properties.attack.range ?? this.config.properties.attack.range)
         if(possible_attacks.find((pos) => pos.equals(dst)) != undefined)
             return true
@@ -95,9 +82,6 @@ class Pawn implements GameObject, DataObject{
 
 
     //GAMEOBJECT
-    processIncomingObject(object: GameObject): void {
-        return
-    }
     @OnlyPawn
     processIncomingAttack(incoming: Pawn): void {
         this._health -= incoming.attack - this.defense
@@ -105,10 +89,8 @@ class Pawn implements GameObject, DataObject{
     }
 
     @OnlyPawn
-    processIncomingDefense(object: Pawn): void {
-        if(!process.env.INFINITY_TURN)
-            this.hasBeenPlayed = true
-    }
+    @TriggerPlayed
+    processIncomingDefense(object: Pawn): void {}
 
     @CurrentTile
     processDeath(current? : Tile): void {
@@ -119,6 +101,8 @@ class Pawn implements GameObject, DataObject{
         this.hasBeenPlayed = false
     }
 
+    @TriggerPlayed
+    processMove(): void {}
 }
 
 

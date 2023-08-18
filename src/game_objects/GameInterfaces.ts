@@ -7,24 +7,25 @@ import { CurrentTile } from "../engine/preconditionners/get_cond";
 import { Tile } from "../engine/tile";
 
 
-interface GameObject extends EngineObject{
+interface IGameObject extends EngineObject{
     color: Color;
     toString(): string;
     config: GameObjectConfig;
     toRepr() : string;
 
     //Game Logic
-    can_pass_through(incoming : GameObject) : boolean;
-    is_walkable(incoming : GameObject) : boolean;
+    can_pass_through(incoming : IGameObject) : boolean;
+    is_walkable(incoming : IGameObject) : boolean;
     canMove(src : Vector2D, dst : Vector2D) : boolean;
     canAttack(src : Vector2D, dst : Vector2D) : boolean;
-    is_attackable(incoming : GameObject) : boolean;
+    is_attackable(incoming : IGameObject) : boolean;
     is_dead(tile? : Tile) : boolean;
 
     //Action
-    processIncomingObject(object : GameObject) : void;
-    processIncomingAttack(object : GameObject) : void;
-    processIncomingDefense(object : GameObject) : void;
+    processIncomingObject(object : IGameObject) : void;
+    processMove() : void;
+    processIncomingAttack(object : IGameObject) : void;
+    processIncomingDefense(object : IGameObject) : void;
     processDeath() : void;
     processNewTurn() : void;
 
@@ -34,5 +35,6 @@ interface DataObject extends EngineObject {
     toString(): string;
 }
 
-export { GameObject, DataObject};
+
+export { IGameObject, DataObject};
 

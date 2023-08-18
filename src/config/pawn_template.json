@@ -1,5 +1,11 @@
 {
     "properties":{
+        "can_pass_through":false,
+        "is_walkable":false,
+        "is_transparent":false,
+        "is_attackable":true,
+        "can_move":true,
+        "can_attack":true,
         "move": {
             "range" : 2
         },

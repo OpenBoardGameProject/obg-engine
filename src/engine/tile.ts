@@ -1,11 +1,11 @@
-import { GameObject , DataObject} from "../game_objects/GameInterfaces";
+import { IGameObject , DataObject} from "../game_objects/GameInterfaces";
 import { Vector2D } from "./math";
 
 
 class Tile implements DataObject{
-    object? : GameObject | null
+    object? : IGameObject | null
 
-    constructor(public pos : Vector2D, object: GameObject | null = null){
+    constructor(public pos : Vector2D, object: IGameObject | null = null){
         this.object = object
     }
 
@@ -20,7 +20,7 @@ class Tile implements DataObject{
         return this.object?.canAttack(this.pos, dst) ?? false
     }
     
-    canWalkOn(incoming : GameObject) : boolean{
+    canWalkOn(incoming : IGameObject) : boolean{
         return this.object?.is_walkable(incoming) ?? true
     }
 
