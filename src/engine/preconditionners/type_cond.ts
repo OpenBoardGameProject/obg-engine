@@ -1,5 +1,5 @@
 import { GameObject } from "../../game_objects/GameInterfaces";
-import { Pawn } from "../../game_objects/Pawn";
+import { Pawn } from "../../game_objects/base_objects/Pawn";
 import { EngineObject } from "../environments";
 
 
@@ -8,7 +8,7 @@ import { EngineObject } from "../environments";
 function OnlyPawn(originalMethod : any, context : ClassMethodDecoratorContext){
     function tmp(this : EngineObject, object : GameObject, ...args : any[]){
         if(object instanceof Pawn)
-            return originalMethod.call(this, object, args)
+            return originalMethod.call(this, object, ...args)
         else return false;
     }
     return tmp;

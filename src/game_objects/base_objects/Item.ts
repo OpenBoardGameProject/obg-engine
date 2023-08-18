@@ -1,8 +1,8 @@
-import { ItemConfig } from "../config/config_types";
-import { Color } from "../engine/environments";
-import { Vector2D } from "../engine/math";
-import { OnlyPawn } from "../engine/preconditionners/type_cond";
-import { GameObject, DataObject } from "./GameInterfaces";
+import { ItemConfig } from "../../config/config_types";
+import { Color } from "../../engine/environments";
+import { Vector2D } from "../../engine/math";
+import { OnlyPawn } from "../../engine/preconditionners/type_cond";
+import { GameObject, DataObject } from "../GameInterfaces";
 import { Pawn } from "./Pawn";
 
 class Item implements GameObject, DataObject{
@@ -58,6 +58,9 @@ class Item implements GameObject, DataObject{
         return
     }
     processDeath(): void {
+        return;
+    }
+    processNewTurn(): void {
         return;
     }
 

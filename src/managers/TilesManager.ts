@@ -1,11 +1,11 @@
-import { Tile } from "../game_objects/Tile";
+import { Tile } from "../engine/tile";
 import { Vector2D } from "../engine/math";
 import { to_coord, to_index } from "../engine/math";
 import { Board } from "../engine/board";
-import { Pawn } from "../game_objects/Pawn";
-import { Item } from "../game_objects/Item";
+import { Pawn } from "../game_objects/base_objects/Pawn";
+import { Item } from "../game_objects/base_objects/Item";
 import { BoardConfig } from "../config/config_types";
-import { Building } from "../game_objects/Building";
+import { Building } from "../game_objects/base_objects/Building";
 import { Color } from "../engine/environments";
 import { GameManager } from "./GameManager";
 import { GameObject } from "../game_objects/GameInterfaces";

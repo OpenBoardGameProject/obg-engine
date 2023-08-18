@@ -1,7 +1,7 @@
-import { GameObjectConfig } from "../config/config_types";
-import { Color } from "../engine/environments";
-import { Vector2D } from "../engine/math";
-import { GameObject } from "./GameInterfaces";
+import { GameObjectConfig } from "../../config/config_types";
+import { Color } from "../../engine/environments";
+import { Vector2D } from "../../engine/math";
+import { GameObject } from "../GameInterfaces";
 
 export class Building implements GameObject{
 
@@ -54,5 +54,7 @@ export class Building implements GameObject{
     processDeath(): void {
         return
     }
-    
+    processNewTurn(): void {
+        return
+    }
 }

@@ -5,16 +5,19 @@ import { Vector2D } from "../engine/math";
 import { Board } from "../engine/board";
 import { TilesManager } from "./TilesManager";
 import { Logger } from "../utils/Logger";
-import { Pawn } from "../game_objects/Pawn";
+import { Pawn } from "../game_objects/base_objects/Pawn";
 import test_pawn from "../config/pawn_template.json"
 import test_item from "../config/item_template.json"
-import { Item } from "../game_objects/Item";
-import { Building } from "../game_objects/Building";
+import { Item } from "../game_objects/base_objects/Item";
+import { Building } from "../game_objects/base_objects/Building";
+import { CheckPawnColorTurn } from "../engine/preconditionners/logic_cond";
 
 class GameManager implements EngineObject {
     log_tag?: string = "GAME_MANAGER";
     private readonly __board: Board;
     private readonly __tiles_manager: TilesManager;
+    private __current_turn: Color = Color.BLUE;
+    private __total_turns: number = 0;
 
     constructor(boardConfig: BoardConfig) {
         //Init Board
@@ -44,15 +47,26 @@ class GameManager implements EngineObject {
     public canMove(src : Vector2D, dst : Vector2D) : boolean{
         //Check if there is a Pawn on src
         return this.tiles_manager.canMove(src, dst)
-
     }
 
+    public canAttack(src : Vector2D, dst : Vector2D) : boolean{
+        //Check if there is a Pawn on src
+        return this.tiles_manager.canAttack(src, dst)
+    }
+
+    @CheckPawnColorTurn
     public move(src : Vector2D, dst : Vector2D){
         return this.tiles_manager.move(src, dst)
     }
 
+    @CheckPawnColorTurn
     public attack(src : Vector2D, dst : Vector2D){
         return this.tiles_manager.attack(src, dst)
+    }
+
+    public nextTurn(){
+        this.__total_turns += 1
+        this.__current_turn = this.__current_turn == Color.BLUE ? Color.RED : Color.BLUE
     }
 
 
@@ -72,6 +86,15 @@ class GameManager implements EngineObject {
     get tiles_manager() : TilesManager{
         return this.__tiles_manager
     }
+
+    get current_turn() : Color{
+        return this.__current_turn
+    }
+
+    get total_turns() : number{
+        return this.__total_turns
+    }
+
 
 }
 

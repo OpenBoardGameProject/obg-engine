@@ -1,14 +1,14 @@
-import { GameObject, DataObject } from "./GameInterfaces";
+import { GameObject, DataObject } from "../GameInterfaces";
 import { Item } from "./Item";
-import { PawnConfig } from "../config/config_types";
-import { Color } from "../engine/environments";
-import { Vector2D } from "../engine/math";
-import { Logger } from "../utils/Logger";
-import { OnlyPawn } from "../engine/preconditionners/type_cond";
-import { GAME_MANAGER } from "../engine/config";
-import { PrintPositions } from "../utils/BoardVisualization";
-import { Tile } from "./Tile";
-import { CurrentTile } from "../engine/preconditionners/get_cond";
+import { PawnConfig } from "../../config/config_types";
+import { Color } from "../../engine/environments";
+import { Vector2D } from "../../engine/math";
+import { Logger } from "../../utils/Logger";
+import { OnlyPawn } from "../../engine/preconditionners/type_cond";
+import { GAME_MANAGER } from "../../engine/config";
+import { PrintPositions } from "../../utils/BoardVisualization";
+import { Tile } from "../../engine/tile";
+import { CurrentTile } from "../../engine/preconditionners/get_cond";
 
 class Pawn implements GameObject, DataObject{
     
@@ -113,6 +113,10 @@ class Pawn implements GameObject, DataObject{
     @CurrentTile
     processDeath(current? : Tile): void {
         current.object = this.item ?? null
+    }
+
+    processNewTurn(): void {
+        this.hasBeenPlayed = false
     }
 
 }

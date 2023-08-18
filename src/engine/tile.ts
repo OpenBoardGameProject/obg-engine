@@ -1,5 +1,6 @@
-import { GameObject , DataObject} from "./GameInterfaces";
-import { Vector2D } from "../engine/math";
+import { GameObject , DataObject} from "../game_objects/GameInterfaces";
+import { Vector2D } from "./math";
+
 
 class Tile implements DataObject{
     object? : GameObject | null
@@ -28,7 +29,6 @@ class Tile implements DataObject{
     }
 
 }
-
 
 
 export { Tile };

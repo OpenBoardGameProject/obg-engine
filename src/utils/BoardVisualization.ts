@@ -2,7 +2,7 @@ import { BoardConfig } from "../config/config_types";
 import { Board } from "../engine/board";
 import { Vector2D } from "../engine/math";
 import { TilesManager } from "../managers/TilesManager";
-import { Tile } from "../game_objects/Tile";
+import { Tile } from "../engine/tile";
 
 function PrintPositions(board : Board,pos : Vector2D[], render : (pos : Vector2D, is_pos : boolean) => string = (pos, is_pos) => is_pos ? "[X]" : "[O]"){
     //put some color in the console

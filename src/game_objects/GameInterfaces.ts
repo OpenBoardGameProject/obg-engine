@@ -4,7 +4,7 @@ import { EngineObject } from "../engine/environments";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { CurrentTile } from "../engine/preconditionners/get_cond";
-import { Tile } from "./Tile";
+import { Tile } from "../engine/tile";
 
 
 interface GameObject extends EngineObject{
@@ -26,6 +26,7 @@ interface GameObject extends EngineObject{
     processIncomingAttack(object : GameObject) : void;
     processIncomingDefense(object : GameObject) : void;
     processDeath() : void;
+    processNewTurn() : void;
 
 }
 
