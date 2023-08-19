@@ -14,14 +14,12 @@ import { Building } from "../game_objects/base_objects/Building";
 import { CheckPawnColor, CheckTurn, CheckVictory } from "../engine/preconditionners/logic_cond";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";
-import { ActionManager } from "./ActionManager";
 
 class GameManager implements EngineObject {
     log_tag?: string = "GAME_MANAGER";
     private readonly __board: Board;
     private readonly __tiles_manager: TilesManager;
     private readonly __rule: Rule;
-    private readonly __action_manager: ActionManager;
     
     //Dictionary of players with color as key
     private __players : {
@@ -37,7 +35,6 @@ class GameManager implements EngineObject {
         this.__board = new Board(boardConfig);
         this.__rule = rule;
         this.__tiles_manager = new TilesManager(this.board);
-        this.__action_manager = new ActionManager(this)
 
         this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE), new Vector2D(3,0))
         this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.RED), new Vector2D(2,0))
@@ -90,17 +87,25 @@ class GameManager implements EngineObject {
         return this.__rule
     }
 
-    next_turn(){
-        this.__total_turns += 1
-        this.__current_turn = this.__current_turn == Color.BLUE ? Color.RED : Color.BLUE
+ 
+
+
+    //ACTION
+    @CheckPawnColor
+    public move(src : Vector2D, dst : Vector2D){
+        return this.tiles_manager.move(src, dst)
     }
 
-    action_manager?(player : Player){
-        if(this.current_turn != player.color){
-            Logger.error(this, 'Not your turn')
-            return undefined
-        }
-        return this.__action_manager
+    @CheckPawnColor
+    public attack(src : Vector2D, dst : Vector2D){
+        return this.tiles_manager.attack(src, dst)
+    }
+
+    public nextTurn() : boolean{
+        this.__total_turns += 1
+        this.__current_turn = this.__current_turn == Color.BLUE ? Color.RED : Color.BLUE
+        this.tiles_manager.objects().forEach((obj) => obj.processNewTurn())
+        return true
     }
 
     //Event

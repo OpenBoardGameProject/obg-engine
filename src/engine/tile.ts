@@ -1,4 +1,4 @@
-import { IGameObject , DataObject} from "../game_objects/GameInterfaces";
+import { IGameObject , DataObject} from "../game_objects/interfaces";
 import { Vector2D } from "./math";
 
 

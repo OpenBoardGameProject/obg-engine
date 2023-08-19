@@ -1,26 +1,24 @@
 import { exit } from "process";
-import { Vector2D } from "../engine/math";
 import { GameManager } from "../managers/GameManager";
 import { PrintBoard, PrintPositions } from "./BoardVisualization";
 import * as readline from "readline";
-import { Pawn } from "../game_objects/base_objects/Pawn";
 
 //CONFIG
-import pawnTestConfig from '../config/pawn_template.json'
-import itemTestConfig from '../config/item_template.json'
-import { Item } from "../game_objects/base_objects/Item";
 import { AttackCommand, ConsoleCommand, MoveCommand, NewTurn, PrintCommand, QuitCommand, SpawnCommand } from "./ConsoleCommands";
 import { Color } from "../engine/environments";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";
 
 import { player_1, player_2 } from "../engine/config";
+import { GameInterface } from "../managers/GameInterface";
 
 class ConsoleView implements GameManagerEvents{
     private rl ;
     __commands : ConsoleCommand[] = []
 
-    current_player : Player
+    player_1 : GameInterface
+    player_2 : GameInterface
+    current_player : GameInterface
 
     wrong_args_error = {'message' : "Wrong number of arguments", 'is_error' : true}
     constructor(public game : GameManager){
@@ -33,7 +31,10 @@ class ConsoleView implements GameManagerEvents{
             new QuitCommand(this.game)
         ]
 
-        this.current_player = player_1
+        this.player_1 = new GameInterface(this.game, player_1)
+        this.player_2 = new GameInterface(this.game, player_2)
+
+        this.current_player = this.player_1
 
         this.rl = readline.createInterface({
             input: process.stdin,
@@ -47,7 +48,7 @@ class ConsoleView implements GameManagerEvents{
 
     public render(){
         PrintBoard(this.game.tiles_manager, this.game.board)
-        console.log(`Turn : ${Color[this.game.current_turn]} ; Playing with : ${this.current_player.name}`)
+        console.log(`Turn : ${Color[this.game.current_turn]} ; Playing with : ${this.current_player.player.name}`)
     }
     public onCommandTrigger(command : string, args : string[]) : object{
         return {'message' : "Command success", 'is_error' : false}
@@ -77,7 +78,7 @@ class ConsoleView implements GameManagerEvents{
             // Handle CTRL+S action here
             console.log("Switching Player");
             
-            this.current_player = this.current_player == player_1 ? player_2 : player_1
+            this.current_player = this.current_player == this.player_1 ? this.player_2 : this.player_1
 
 
             // Then resume listening for user input

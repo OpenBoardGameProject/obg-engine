@@ -2,7 +2,7 @@ import { GameObjectConfig } from "../config/config_types";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { Tile } from "../engine/tile";
-import { IGameObject } from "./GameInterfaces";
+import { IGameObject } from "./interfaces";
 
 export class GameObject implements IGameObject{
     color: Color;

@@ -8,7 +8,7 @@ import { BoardConfig } from "../config/config_types";
 import { Building } from "../game_objects/base_objects/Building";
 import { Color } from "../engine/environments";
 import { GameManager } from "./GameManager";
-import { IGameObject } from "../game_objects/GameInterfaces";
+import { IGameObject } from "../game_objects/interfaces";
 import { PrintPositions } from "../utils/BoardVisualization";
 export class TilesManager{
     public readonly tiles : Tile[] = [];

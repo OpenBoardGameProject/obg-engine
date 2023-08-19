@@ -1,4 +1,4 @@
-import { IGameObject, DataObject } from "../GameInterfaces";
+import { IGameObject, DataObject } from "../interfaces";
 import { Item } from "./Item";
 import { PawnConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";

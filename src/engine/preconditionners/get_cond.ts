@@ -1,4 +1,4 @@
-import { IGameObject } from "../../game_objects/GameInterfaces";
+import { IGameObject } from "../../game_objects/interfaces";
 import { Pawn } from "../../game_objects/base_objects/Pawn";
 import { Vector2D } from "../math";
 import { GAME_MANAGER } from "../config";

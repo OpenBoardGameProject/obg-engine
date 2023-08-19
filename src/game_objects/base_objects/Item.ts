@@ -2,7 +2,7 @@ import { ItemConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
 import { Vector2D } from "../../engine/math";
 import { OnlyPawn } from "../../engine/preconditionners/type_cond";
-import { IGameObject, DataObject } from "../GameInterfaces";
+import { IGameObject, DataObject } from "../interfaces";
 import { GameObject } from "../GameObject";
 import { Pawn } from "./Pawn";
 
