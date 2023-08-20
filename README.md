@@ -1,1 +1,1 @@
-# obg-engine
+# Open Board Game Project Engine
