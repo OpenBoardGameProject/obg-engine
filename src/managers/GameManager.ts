@@ -31,20 +31,21 @@ class GameManager implements EngineObject {
     private __current_turn: Color = Color.BLUE;
     private __total_turns: number = 0;
 
-    constructor(rule : Rule, boardConfig: BoardConfig) {
+    constructor(rule : Rule, boardConfig: BoardConfig, tile_manager? : TilesManager) {
         //Init Board
         this.__board = new Board(boardConfig);
         this.__rule = rule;
-        this.__tiles_manager = new TilesManager(this.board);
+        if(tile_manager)
+            this.__tiles_manager = tile_manager
+        else
+            this.__tiles_manager = new TilesManager(this.board);
 
         this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE), new Vector2D(3,0))
         this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.RED), new Vector2D(2,0))
         this.tiles_manager.dev_additem(new Item(test_item, Color.WHITE), new Vector2D(1,0))
         this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE), new Vector2D(0,1))
         this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE), new Vector2D(1,1))
-
-        PrintPositions(this.board, this.tiles_manager.visibleTiles(new Vector2D(3,0), 2))
-
+        
         Logger.log(this, "Game Manager Initialized");
     }
 

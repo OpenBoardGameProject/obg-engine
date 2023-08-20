@@ -17,10 +17,13 @@ export class TilesManager{
 
     
 
-    constructor(board: Board){
+    constructor(board: Board, tiles? : Tile[]){
         this.board = board;
         this.config = board.config;
-        this.generate_tiles();
+        if(tiles)
+            this.tiles = tiles
+        else
+            this.generate_tiles();
 
     }
     public tile(pos : Vector2D): Tile{
