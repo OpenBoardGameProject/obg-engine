@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "install": "npm run build",
-    "build": "tsc --outDir dist -p ./tsconfig.json",
+    "build": "tsc --outDir dist",
     "start": "node dist/main.js",
     "watch": "tsc --outDir dist -p ./tsconfig.json --watch",
     "clean": "rm -rf dist",
