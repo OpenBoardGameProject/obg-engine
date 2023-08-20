@@ -8,6 +8,7 @@
     "dist"
   ],
   "scripts": {
+    "install": "npm run build",
     "build": "tsc --outDir dist -p ./tsconfig.json",
     "start": "node dist/main.js",
     "watch": "tsc --outDir dist -p ./tsconfig.json --watch",
