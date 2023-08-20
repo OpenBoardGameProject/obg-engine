@@ -2,7 +2,11 @@
   "name": "boardgame-test",
   "version": "0.0.1",
   "description": "a prototype of a board game server",
-  "main": "src/main.ts",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc --outDir dist -p ./tsconfig.json",
     "start": "node dist/main.js",

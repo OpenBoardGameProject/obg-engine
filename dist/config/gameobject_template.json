@@ -1,0 +1,16 @@
+{
+    "apparence": {
+        "str": "GO"
+    },
+    "properties": {
+        "can_pass_through": true,
+        "is_walkable": false,
+        "is_transparent": false,
+        "is_attackable": false,
+        "can_move": false,
+        "can_attack": false,
+        "vision": {
+            "range": 0
+        }
+    }
+}

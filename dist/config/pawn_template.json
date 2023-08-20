@@ -1,0 +1,27 @@
+{
+    "properties": {
+        "can_pass_through": false,
+        "is_walkable": false,
+        "is_transparent": false,
+        "is_attackable": true,
+        "can_move": true,
+        "can_attack": true,
+        "vision": {
+            "range": 2
+        },
+        "move": {
+            "range": 2
+        },
+        "attack": {
+            "range": 2,
+            "damage": 1
+        },
+        "defense": {
+            "reduce": 0
+        },
+        "health": 1
+    },
+    "apparence": {
+        "str": "♟"
+    }
+}

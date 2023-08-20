@@ -1,0 +1,32 @@
+import { BoardConfig } from "../config/config_types";
+import { Color, EngineObject, Rule } from "../engine/environments";
+import { Vector2D } from "../engine/math";
+import { Board } from "../engine/board";
+import { TilesManager } from "./TilesManager";
+import { GameManagerEvents } from "../engine/events";
+declare class GameManager implements EngineObject {
+    log_tag?: string;
+    private readonly __board;
+    private readonly __tiles_manager;
+    private readonly __rule;
+    private __players;
+    private __observers;
+    private __current_turn;
+    private __total_turns;
+    constructor(rule: Rule, boardConfig: BoardConfig, tile_manager?: TilesManager);
+    canMove(src: Vector2D, dst: Vector2D): boolean;
+    canAttack(src: Vector2D, dst: Vector2D): boolean;
+    start(): void;
+    get board(): Board;
+    get tiles_manager(): TilesManager;
+    get current_turn(): Color;
+    get total_turns(): number;
+    get rule(): Rule;
+    move(src: Vector2D, dst: Vector2D): boolean;
+    attack(src: Vector2D, dst: Vector2D): boolean;
+    nextTurn(): boolean;
+    subscribe(observer: GameManagerEvents): void;
+    unsubscribe(observer: GameManagerEvents): void;
+    notify(trigger: (observer: GameManagerEvents) => void): void;
+}
+export { GameManager };

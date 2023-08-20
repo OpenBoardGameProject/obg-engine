@@ -1,0 +1,16 @@
+{
+    "apparence": {
+        "str": "🧱"
+    },
+    "properties": {
+        "vision": {
+            "range": 0
+        },
+        "can_pass_through": false,
+        "is_walkable": false,
+        "is_transparent": false,
+        "is_attackable": false,
+        "can_move": false,
+        "can_attack": false
+    }
+}

@@ -1,0 +1,32 @@
+import { Tile } from "../engine/tile";
+import { Vector2D } from "../engine/math";
+import { Board } from "../engine/board";
+import { Pawn } from "../game_objects/base_objects/Pawn";
+import { Item } from "../game_objects/base_objects/Item";
+import { Building } from "../game_objects/base_objects/Building";
+import { IGameObject } from "../game_objects/interfaces";
+export declare class TilesManager {
+    readonly tiles: Tile[];
+    private board;
+    private config;
+    constructor(board: Board, tiles?: Tile[]);
+    tile(pos: Vector2D): Tile;
+    tileByIndex(index: number): Tile;
+    private to_index;
+    private to_coord;
+    private bresenhamLine;
+    private is_case_visible_from;
+    objects(filter?: (object: IGameObject) => boolean): IGameObject[];
+    tiles_with_objects(filter?: (object: IGameObject) => boolean): Tile[];
+    private generate_tiles;
+    possibleMoves(src: Vector2D, range?: number, filter?: (Vector2D: any) => boolean): Vector2D[];
+    possibleAttacks(src: Vector2D, range?: number): Vector2D[];
+    visibleTiles(src: Vector2D, range?: number): Vector2D[];
+    canMove(src: Vector2D, dst: Vector2D): boolean;
+    canAttack(src: Vector2D, dst: Vector2D): boolean;
+    move(src: Vector2D, dst: Vector2D): boolean;
+    attack(src: Vector2D, dst: Vector2D): boolean;
+    dev_addpawn(pawn: Pawn, pos: Vector2D): void;
+    dev_additem(item: Item, pos: Vector2D): void;
+    dev_addbuilding(building: Building, pos: Vector2D): void;
+}
