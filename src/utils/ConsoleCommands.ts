@@ -118,7 +118,7 @@ class PrintCommand extends ConsoleCommand{
                 }else{
                     switch(args[0]){
                         case 'health' :
-                            for(let tile of player.tiles((tile) => tile.object? tile.object instanceof Pawn : false)){
+                            for(let tile of player.tiles.filter((tile) => tile.object? tile.object instanceof Pawn : false)){
                                 console.log(tile.pos.toString() + " : " + (tile.object as Pawn).health.toString())
                             }
                             break;

@@ -142,6 +142,17 @@ class Board
         }).filter((pos) => pos != null);
     }
 
+    public possible_moves_range(pos : Vector2D, range : number = 1): Vector2D[]
+    {
+        if(range == 0)
+            return []
+        const moves = this.possible_moves(pos)
+        const moves_filtered_unique = moves.filter((move) => !move.equals(pos))
+        const moves_rec = moves_filtered_unique.flatMap((move) => this.possible_moves_range(move, range - 1))
+        const returned = [...moves_filtered_unique, ...moves_rec]
+        return returned
+    }
+
     
 
 }

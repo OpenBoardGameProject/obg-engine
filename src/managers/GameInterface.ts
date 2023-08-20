@@ -1,10 +1,12 @@
 import { Board } from "../engine/board";
 import { EngineObject } from "../engine/environments";
-import { Vector2D } from "../engine/math";
+import { Vector2D, to_index } from "../engine/math";
 import { Player } from "../engine/player";
 import { CheckTurn } from "../engine/preconditionners/logic_cond";
 import { Tile } from "../engine/tile";
 import { GameManager } from "./GameManager";
+
+const EMPTY_TILE = new Tile(new Vector2D(-1,-1), null)
 
 export class GameInterface implements EngineObject{
     log_tag?: string = "GAME_INTERFACE";
@@ -41,11 +43,38 @@ export class GameInterface implements EngineObject{
     public possibleAttacks(src : Vector2D, range : number = 1) : Vector2D[]{
         return this.__game.tiles_manager.possibleAttacks(src)
     }
-    public tiles(filter? : (tile : Tile) => boolean) : Tile[]{
-        return this.__game.tiles_manager.tiles.filter(filter? filter : () => true)
+    get tiles () : Tile[]{
+        const width = this.__game.board.config.properties.width
+        const height = this.__game.board.config.properties.height
+        const size = width * height
+        const our_objects = this.__game.tiles_manager.tiles.filter((tile) => tile.object?.color == this.__player.color)
+        const visibleTiles : Vector2D[] = our_objects.flatMap((tile) => this.__game.tiles_manager.visibleTiles(tile.pos, tile.object?.config.properties.vision.range ?? 0))
+        
+        let tiles : Tile[] = []
+        tiles.length = size
+        tiles = tiles.fill(EMPTY_TILE, 0, width * this.__game.board.config.properties.height)
+
+        our_objects.forEach((tile) => {
+            tiles[to_index(tile.pos,width)] = tile
+        })
+        visibleTiles.forEach((pos) => {
+            tiles[to_index(pos,width)] = this.__game.tiles_manager.tile(pos)
+        })
+
+        //Verify that all tiles are filled and not undefined
+        tiles.forEach((tile) => {
+            if(tile == undefined){
+                throw new Error("Tile is undefined")
+            }
+        })
+        if(tiles.length != size){
+            throw new Error("Tiles array is not the right size")
+        }
+        return tiles
     }
+    
     public tile(pos : Vector2D) : Tile{
-        return this.__game.tiles_manager.tile(pos)
+        return this.tiles[to_index(pos, this.__game.board.config.properties.width)]
     }
 
 

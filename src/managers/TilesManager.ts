@@ -39,7 +39,44 @@ export class TilesManager{
     private to_coord(index: number): Vector2D{
         return to_coord(index, this.config.properties.width);
     }
+    private bresenhamLine(start: Vector2D, end: Vector2D): Vector2D[] {
+        const line: Vector2D[] = [];
+        const dx = Math.abs(end.x - start.x);
+        const dy = Math.abs(end.y - start.y);
+        const sx = start.x < end.x ? 1 : -1;
+        const sy = start.y < end.y ? 1 : -1;
+        let err = dx - dy;
+      
+        while (true) {
+          line.push(start.clone());
+      
+          if (start.x === end.x && start.y === end.y) {
+            break;
+          }
+      
+          const e2 = 2 * err;
+          if (e2 > -dy) {
+            err -= dy;
+            start.x += sx;
+          }
+          if (e2 < dx) {
+            err += dx;
+            start.y += sy;
+          }
+        }
+      
+        return line;
+    }
+    private is_case_visible_from(src : Vector2D, dst : Vector2D) : boolean{
+        for(let pos of this.bresenhamLine(src.clone(), dst)){
+            if (pos.equals(src) || pos.equals(dst))
+                continue
+            if(!(this.tile(pos).object?.is_transparent() ?? true))
+                return false
+        }  
+        return true;
 
+    }
     objects(filter : (object : IGameObject) => boolean = undefined) : IGameObject[]{
         if(filter)
             return this.tiles.filter((tile) => tile.has_object).map((tile) => tile.object).filter(filter)
@@ -77,7 +114,11 @@ export class TilesManager{
     {   
         return this.possibleMoves(src, range, (pos) => true).filter((move) => this.tile(move).has_object && this.tile(move).object?.is_attackable(this.tile(src).object??undefined))
     }
-
+    public visibleTiles(src : Vector2D, range : number = 1) : Vector2D[]
+    {
+        const potentials = this.board.possible_moves_range(src, range)
+        return potentials.filter((pos) => this.is_case_visible_from(src, pos))
+    }
     public canMove(src: Vector2D, dst: Vector2D): boolean {
         return this.tile(src).canMove(dst) && this.tile(dst).canWalkOn(this.tile(src).object ?? undefined)
     }

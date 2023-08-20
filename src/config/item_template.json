@@ -15,6 +15,9 @@
             "multiplier" : 1,
             "type" : "physical"
         },
+        "vision" : {
+            "range":0
+        },
         "can_pass_through":true,
         "is_walkable":true,
         "is_transparent":true,

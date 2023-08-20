@@ -6,6 +6,9 @@
         "is_attackable":true,
         "can_move":true,
         "can_attack":true,
+        "vision" : {
+            "range":2
+        },
         "move": {
             "range" : 2
         },

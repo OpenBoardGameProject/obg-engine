@@ -47,7 +47,7 @@ class ConsoleView implements GameManagerEvents{
     }
 
     public render(){
-        PrintBoard(this.game.tiles_manager, this.game.board)
+        PrintBoard(this.current_player.tiles, this.game.board)
         console.log(`Turn : ${Color[this.game.current_turn]} ; Playing with : ${this.current_player.player.name}`)
     }
     public onCommandTrigger(command : string, args : string[]) : object{

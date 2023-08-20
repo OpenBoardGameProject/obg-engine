@@ -1,6 +1,6 @@
 import { BoardConfig } from "../config/config_types";
 import { Board } from "../engine/board";
-import { Vector2D } from "../engine/math";
+import { Vector2D, to_coord } from "../engine/math";
 import { TilesManager } from "../managers/TilesManager";
 import { Tile } from "../engine/tile";
 
@@ -35,7 +35,7 @@ function PrintPositions(board : Board,pos : Vector2D[], render : (pos : Vector2D
     process.stdout.write("\n")   
 }
 
-function PrintBoard(tile_manager : TilesManager, board : Board){
+function PrintBoard(tiles : Tile[], board : Board){
     const size = board.config.properties.width * board.config.properties.height;
     const width = board.config.properties.width;
     const height = board.config.properties.height;
@@ -55,7 +55,7 @@ function PrintBoard(tile_manager : TilesManager, board : Board){
     filler.length = size;
     filler.fill(0,0,size);
     filler = filler.map((_,i) => {
-        const tile = tile_manager.tileByIndex(i)
+        const tile = tiles[i]
         return (tile.has_object ? 1 : 0)
     });
 
@@ -65,7 +65,7 @@ function PrintBoard(tile_manager : TilesManager, board : Board){
         if (i % width == 0)
             process.stdout.write("\n")
         if (x === 1){
-            let tile : Tile= tile_manager.tileByIndex(i)
+            let tile : Tile = tiles[i]
             process.stdout.write(`${color_code[tile.object.color]}[${tile.object.toRepr().padEnd(2," ")}]${reset_code}`);
         }else{
             process.stdout.write("[  ]");
@@ -75,5 +75,8 @@ function PrintBoard(tile_manager : TilesManager, board : Board){
 
 
 }
+
+
+
 
 export { PrintPositions , PrintBoard};

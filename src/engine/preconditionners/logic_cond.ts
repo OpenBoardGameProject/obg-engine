@@ -20,6 +20,18 @@ function CheckTurn(originalMethod : any, context : ClassMethodDecoratorContext){
 
 
 //GAME MANAGER PRECOND
+function CheckObject(originalMethod : any, context : ClassMethodDecoratorContext){
+    function tmp(this : GameManager,src : Vector2D, ...args : any[]){
+        if(this.tiles_manager.tile(src).object)
+            return originalMethod.call(this,src, ...args)
+        else{
+            Logger.error(this, "No object on tile")
+            return false;  
+        } 
+    }
+    return tmp;
+}
+
 function CheckPawnColor(originalMethod : any, context : ClassMethodDecoratorContext){
     function tmp(this : GameManager,src : Vector2D, ...args : any[]){
         if(this.current_turn == this.tiles_manager.tile(src).object.color)
@@ -71,5 +83,5 @@ function HasBeenPlayed(originalMethod : any, context : ClassMemberDecoratorConte
 }
 
 
-export {CheckPawnColor, CheckVictory, CheckTurn, TriggerPlayed, HasBeenPlayed}
+export {CheckPawnColor, CheckVictory, CheckTurn, TriggerPlayed, HasBeenPlayed, CheckObject}
 

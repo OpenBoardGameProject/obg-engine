@@ -20,6 +20,7 @@ interface IGameObject extends EngineObject{
     canAttack(src : Vector2D, dst : Vector2D) : boolean;
     is_attackable(incoming : IGameObject) : boolean;
     is_dead(tile? : Tile) : boolean;
+    is_transparent() : boolean;
 
     //Action
     processIncomingObject(object : IGameObject) : void;

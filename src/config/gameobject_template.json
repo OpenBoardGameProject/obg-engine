@@ -8,6 +8,9 @@
         "is_transparent":false,
         "is_attackable":false,
         "can_move":false,
-        "can_attack":false
+        "can_attack":false,
+        "vision" : {
+            "range":0
+        }
     }
 }

@@ -1,4 +1,5 @@
 import { GameObjectConfig } from "../config/config_types";
+import { GAME_MANAGER } from "../engine/config";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { Tile } from "../engine/tile";
@@ -41,6 +42,9 @@ export class GameObject implements IGameObject{
     }
     is_dead(tile?: Tile): boolean {
         return false
+    }
+    is_transparent() : boolean{
+        return this.config.properties.is_transparent
     }
 
     //Action

@@ -11,9 +11,10 @@ import test_item from "../config/item_template.json"
 import test_building from "../config/building_template.json"
 import { Item } from "../game_objects/base_objects/Item";
 import { Building } from "../game_objects/base_objects/Building";
-import { CheckPawnColor, CheckTurn, CheckVictory } from "../engine/preconditionners/logic_cond";
+import { CheckObject, CheckPawnColor, CheckTurn, CheckVictory } from "../engine/preconditionners/logic_cond";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";
+import { PrintPositions } from "../utils/BoardVisualization";
 
 class GameManager implements EngineObject {
     log_tag?: string = "GAME_MANAGER";
@@ -41,16 +42,20 @@ class GameManager implements EngineObject {
         this.tiles_manager.dev_additem(new Item(test_item, Color.WHITE), new Vector2D(1,0))
         this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE), new Vector2D(0,1))
         this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE), new Vector2D(1,1))
+
+        PrintPositions(this.board, this.tiles_manager.visibleTiles(new Vector2D(3,0), 2))
+
         Logger.log(this, "Game Manager Initialized");
     }
 
 
     //LOGIC
+    @CheckObject
     public canMove(src : Vector2D, dst : Vector2D) : boolean{
         //Check if there is a Pawn on src
         return this.tiles_manager.canMove(src, dst)
     }
-
+    @CheckObject
     public canAttack(src : Vector2D, dst : Vector2D) : boolean{
         //Check if there is a Pawn on src
         return this.tiles_manager.canAttack(src, dst)
@@ -91,11 +96,12 @@ class GameManager implements EngineObject {
 
 
     //ACTION
+    @CheckObject
     @CheckPawnColor
     public move(src : Vector2D, dst : Vector2D){
         return this.tiles_manager.move(src, dst)
     }
-
+    @CheckObject
     @CheckPawnColor
     public attack(src : Vector2D, dst : Vector2D){
         return this.tiles_manager.attack(src, dst)

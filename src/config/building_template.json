@@ -3,6 +3,9 @@
         "str":"🧱"
     },
     "properties":{
+        "vision" : {
+            "range":0
+        },
         "can_pass_through":false,
         "is_walkable":false,
         "is_transparent":false,

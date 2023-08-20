@@ -1,7 +1,16 @@
-export class Vector2D{
-    
-    
-    constructor(public x : number, public y : number){}
+interface Point {
+    x: number;
+    y: number;
+}
+
+export class Vector2D implements Point{
+    public x : number;
+    public y : number;
+
+    constructor(x : number,y : number){
+        this.x = x;
+        this.y = y;
+    }
 
     public add(other : Vector2D) : Vector2D{
         return new Vector2D(this.x + other.x, this.y + other.y);
@@ -13,6 +22,10 @@ export class Vector2D{
     
     equals(other : Vector2D) : boolean{
         return this.x == other.x && this.y == other.y;
+    }
+
+    clone() : Vector2D{
+        return new Vector2D(this.x, this.y);
     }
 
     static from_str(str : string) : Vector2D{
