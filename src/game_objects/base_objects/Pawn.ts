@@ -1,15 +1,15 @@
-import { IGameObject, DataObject } from "../interfaces";
+import { DataObject } from "../interfaces";
 import { Item } from "./Item";
 import { PawnConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
 import { Vector2D } from "../../engine/math";
 import { Logger } from "../../utils/Logger";
 import { OnlyPawn } from "../../engine/preconditionners/type_cond";
-import { GAME_MANAGER } from "../../engine/config";
 import { Tile } from "../../engine/tile";
 import { CurrentTile } from "../../engine/preconditionners/get_cond";
 import { HasBeenPlayed, TriggerPlayed } from "../../engine/preconditionners/logic_cond";
 import { GameObject } from "../GameObject";
+import { GameManager } from "../../managers/GameManager";
 
 class Pawn extends GameObject implements DataObject{
     
@@ -25,8 +25,8 @@ class Pawn extends GameObject implements DataObject{
         return this._health
     }
 
-    constructor(config : PawnConfig, public color : Color){
-        super(config, color)
+    constructor(config : PawnConfig, public color : Color, public context : GameManager){
+        super(config, color, context)
         this._health = config.properties.health
     }
     
@@ -51,12 +51,12 @@ class Pawn extends GameObject implements DataObject{
 
     @HasBeenPlayed
     canMove(src: Vector2D, dst: Vector2D): boolean {
-        const possible_moves = GAME_MANAGER.tiles_manager.possibleMoves(src, this.config.properties.move.range)
+        const possible_moves = this.context.tiles_manager.possibleMoves(src, this.config.properties.move.range)
         return possible_moves.find((pos) => pos.equals(dst)) != undefined
     }
     @HasBeenPlayed
     canAttack(src: Vector2D, dst: Vector2D): boolean {
-        const possible_attacks = GAME_MANAGER.tiles_manager.possibleAttacks(src, this.item?.config.properties.attack.range ?? this.config.properties.attack.range)
+        const possible_attacks = this.context.tiles_manager.possibleAttacks(src, this.item?.config.properties.attack.range ?? this.config.properties.attack.range)
         if(possible_attacks.find((pos) => pos.equals(dst)) != undefined)
             return true
         Logger.error(this, "No possible attacks")

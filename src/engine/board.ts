@@ -14,11 +14,10 @@ import { Vector2D } from "./math";
 class Board
 {
     public config : BoardConfig;
-    private readonly backup_matrix: number[][] 
-    private current_adj_matrix_move: number[][]
+    private __adj_matrix_move: number[][]
 
     get adj_matrix_move(): number[][] {
-        return this.current_adj_matrix_move;
+        return this.__adj_matrix_move;
     }
 
     
@@ -27,10 +26,9 @@ class Board
     {
         this.config = config;
 
-        this.current_adj_matrix_move = [];
+        this.__adj_matrix_move = [];
         this.generate_adj_matrix_move();
         //Copy the matrix
-        this.backup_matrix = Object.assign([], this.adj_matrix_move)
     }
  
     
@@ -41,42 +39,6 @@ class Board
     public to_coord(index: number): Vector2D
     {
         return to_coord(index, this.config.properties.width)
-    }
-
-    public cut_relations(cut_array : number[][]){
-        //Check if it's the size of the board
-        if (cut_array.length != this.config.properties.width && cut_array[0].length != this.config.properties.height){
-            throw new Error("Cut array is not the size of the board");
-        }
-        cut_array.forEach((row, x) => {
-            row.forEach((value, y) => {
-                if(value == 0){
-                    this.restore_relations(new Vector2D(x, y));
-                }else
-                {
-                    this.cut_relation(new Vector2D(x, y));
-                }
-            });
-        });
-    }
-
-    public cut_relation(pos : Vector2D){
-        const index = this.to_index(pos);
-        const size = this.config.properties.width * this.config.properties.height;
-
-        // Set all the column items at 0 (x=x , y=[0, height])
-        for (let i = 0; i < size; i++) {
-            this.adj_matrix_move[i][index] = 0;
-        }
-    }
-    public restore_relations(pos : Vector2D){
-        const index = this.to_index(pos);
-        const size = this.config.properties.width * this.config.properties.height;
-
-        // Set all the column items at 0 (x=x , y=[0, height])
-        for (let i = 0; i < size; i++) {
-            this.adj_matrix_move[i][index] = this.backup_matrix[i][index];
-        }
     }
 
     private generate_adj_matrix_move() {

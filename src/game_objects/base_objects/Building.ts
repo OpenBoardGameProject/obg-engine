@@ -1,8 +1,8 @@
 import { BuildingConfig, GameObjectConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
 import { Vector2D } from "../../engine/math";
+import { GameManager } from "../../managers/GameManager";
 import { GameObject } from "../GameObject";
-import { IGameObject } from "../interfaces";
 
 export class Building extends GameObject{
     log_tag?: string = "BUILDING";
@@ -10,8 +10,8 @@ export class Building extends GameObject{
     config: BuildingConfig;
 
 
-    constructor(config: BuildingConfig, color: Color){
-        super(config, color)
+    constructor(config: BuildingConfig, color: Color, context : GameManager){
+        super(config, color, context)
     }
 
     //Engine

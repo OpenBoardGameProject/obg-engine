@@ -63,7 +63,7 @@ function CheckVictory(originalMethod : any, context : ClassMethodDecoratorContex
 
 function TriggerPlayed(originalMethod : any, context : ClassMemberDecoratorContext){
     function tmp (this : Pawn, ...args : any[]){
-        if(process.env.INFINITY_TURN)
+        if(!process.env.INFINITY_TURN)
             this.hasBeenPlayed = true
         return originalMethod.call(this, ...args)
     }

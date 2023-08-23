@@ -1,16 +1,17 @@
 
 import board_config from "./config/board_template.json";
-import { GAME_MANAGER } from "./engine/config";
 import { Vector2D } from "./engine/math";
+import { ResourceImporter } from "./engine/resource_importer";
 import { GameSerializer } from "./engine/serializer";
 import { GameManager } from "./managers/GameManager";
 import { PrintBoard, PrintPositions } from "./utils/BoardVisualization";
 import { DevConsoleView } from "./utils/ConsoleView";
 
 
-const gameManager = GAME_MANAGER;
+const importer = new ResourceImporter().import();
+const gameManager = new GameManager(importer.getRule('dev_rule'), board_config);
 
-const consoleView = new DevConsoleView(GAME_MANAGER);
+const consoleView = new DevConsoleView(gameManager);
 
 
 

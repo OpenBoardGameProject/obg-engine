@@ -40,11 +40,11 @@ class GameManager implements EngineObject {
         else
             this.__tiles_manager = new TilesManager(this.board);
 
-        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE), new Vector2D(3,0))
-        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.RED), new Vector2D(2,0))
-        this.tiles_manager.dev_additem(new Item(test_item, Color.WHITE), new Vector2D(1,0))
-        this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE), new Vector2D(0,1))
-        this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE), new Vector2D(1,1))
+        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE, this), new Vector2D(3,0))
+        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.RED, this), new Vector2D(2,0))
+        this.tiles_manager.dev_additem(new Item(test_item, Color.WHITE, this), new Vector2D(1,0))
+        this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE, this), new Vector2D(0,1))
+        this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE, this), new Vector2D(1,1))
         
         Logger.log(this, "Game Manager Initialized");
     }

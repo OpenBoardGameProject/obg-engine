@@ -2,7 +2,6 @@ import { GameManager } from "../managers/GameManager";
 import { BoardConfig } from "../config/config_types";
 import { to_index } from "./math";
 import { stringify } from "querystring";
-import { RULE } from "./config";
 import { IGameObject } from "../game_objects/interfaces";
 import { TilesManager } from "../managers/TilesManager";
 
@@ -29,9 +28,9 @@ export class GameSerializer {
             board : board
         };
     }
-
+//TODO: Fix this
     static loadGame(data : ExportedData) : GameManager{
-        let game : GameManager = new GameManager(RULE, data.config)
+        let game : GameManager = new GameManager(undefined, data.config)
 
         const tiles = game.tiles_manager.tiles.map((tile, index) => {
             const object : IGameObject = data.board[index] as IGameObject
@@ -40,7 +39,7 @@ export class GameSerializer {
             tile.object = object
             return tile
         })
-        return new GameManager(RULE, data.config, new TilesManager(game.board, tiles))
+        return new GameManager(undefined, data.config, new TilesManager(game.board, tiles))
     }
 
     static stringify(data : ExportedData) : string {

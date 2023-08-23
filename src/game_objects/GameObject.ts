@@ -1,18 +1,21 @@
 import { GameObjectConfig } from "../config/config_types";
-import { GAME_MANAGER } from "../engine/config";
 import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { Tile } from "../engine/tile";
+import { GameManager } from "../managers/GameManager";
 import { IGameObject } from "./interfaces";
 
 export class GameObject implements IGameObject{
     color: Color;
     log_tag?: string = "GAMEOBJECT";
+    context?: GameManager;
     config: GameObjectConfig;
 
-    constructor(config: GameObjectConfig, color: Color){
+    constructor(config: GameObjectConfig, color: Color, context : GameManager){
+        this.context = context
         this.config = config
         this.color = color
+        
     }
 
     //INTERNAL

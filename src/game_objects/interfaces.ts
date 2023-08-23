@@ -5,10 +5,12 @@ import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { CurrentTile } from "../engine/preconditionners/get_cond";
 import { Tile } from "../engine/tile";
+import { GameManager } from "../managers/GameManager";
 
 
 interface IGameObject extends EngineObject{
     color: Color;
+    context? : GameManager;
     toString(): string;
     config: GameObjectConfig;
     toRepr() : string;

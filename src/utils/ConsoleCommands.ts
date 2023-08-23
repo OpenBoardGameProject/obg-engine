@@ -149,15 +149,15 @@ class SpawnCommand extends ConsoleCommand{
         switch(type){
             case 'pawn':
             case 'p':
-                this.context.tiles_manager.dev_addpawn(new Pawn(test_pawn, color), pos)
+                this.context.tiles_manager.dev_addpawn(new Pawn(test_pawn, color, this.context), pos)
                 break;
             case 'item':
             case 'i':
-                this.context.tiles_manager.dev_additem(new Item(test_item, color), pos)
+                this.context.tiles_manager.dev_additem(new Item(test_item, color, this.context), pos)
                 break;
             case 'building':
             case 'b':
-                this.context.tiles_manager.dev_addbuilding(new Building(test_building, color), pos)
+                this.context.tiles_manager.dev_addbuilding(new Building(test_building, color, this.context), pos)
                 break;
             default:
                 this.output = {'message' : "Unknown type", 'is_error' : true}
