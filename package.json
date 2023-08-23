@@ -1,7 +1,7 @@
 {
-  "name": "boardgame-test",
+  "name": "obg-engine",
   "version": "0.0.1",
-  "description": "a prototype of a board game server",
+  "description": "the core engine of obg project",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "files": [
