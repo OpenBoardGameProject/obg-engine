@@ -1,5 +1,7 @@
 
 import board_config from "./config/board_template.json";
+import { BoardConfig } from "./config/config_types";
+import { RESOURCE } from "./engine/config";
 import { Vector2D } from "./engine/math";
 import { ResourceImporter } from "./engine/resource_importer";
 import { GameSerializer } from "./engine/serializer";
@@ -8,8 +10,7 @@ import { PrintBoard, PrintPositions } from "./utils/BoardVisualization";
 import { DevConsoleView } from "./utils/ConsoleView";
 
 
-const importer = new ResourceImporter().import();
-const gameManager = new GameManager(importer.getRule('dev_rule'), board_config);
+const gameManager = new GameManager(RESOURCE.getRule('dev_rule'), RESOURCE.getConfig('template_board') as BoardConfig);
 
 const consoleView = new DevConsoleView(gameManager);
 

@@ -10,7 +10,7 @@ import { GameManager } from "../managers/GameManager";
 
 interface IGameObject extends EngineObject{
     color: Color;
-    context? : GameManager;
+    context : GameManager;
     toString(): string;
     config: GameObjectConfig;
     toRepr() : string;

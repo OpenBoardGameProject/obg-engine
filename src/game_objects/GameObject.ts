@@ -8,7 +8,7 @@ import { IGameObject } from "./interfaces";
 export class GameObject implements IGameObject{
     color: Color;
     log_tag?: string = "GAMEOBJECT";
-    context?: GameManager;
+    context: GameManager;
     config: GameObjectConfig;
 
     constructor(config: GameObjectConfig, color: Color, context : GameManager){

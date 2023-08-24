@@ -1,6 +1,7 @@
 import { Rule, Color} from "../engine/environments"
 import { Pawn } from "../game_objects/base_objects/Pawn"
 import { GameManager } from "../managers/GameManager"
+import { RESOURCE } from "../engine/config"
 
 export const RULE : Rule = {
     name : "dev_rule",
