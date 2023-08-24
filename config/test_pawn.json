@@ -1,5 +1,5 @@
 {
-    "id":"template_pawn",
+    "id":"test_pawn",
     "properties":{
         "can_pass_through":false,
         "is_walkable":false,

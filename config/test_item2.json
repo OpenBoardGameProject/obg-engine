@@ -1,0 +1,29 @@
+{
+    "id":"test_item2",
+    "apparence":{
+        "str" : "🪓"
+
+    },
+    "properties":{
+        "attack" : {
+            "damage" : 2,
+            "range" : 1,
+            "multiplier" : 1,
+            "type" : "physical"
+        },
+        "defense" : {
+            "reduce" : 0,
+            "multiplier" : 1,
+            "type" : "physical"
+        },
+        "vision" : {
+            "range":0
+        },
+        "can_pass_through":true,
+        "is_walkable":true,
+        "is_transparent":true,
+        "is_attackable":false,
+        "can_move":false,
+        "can_attack":false
+    }
+}

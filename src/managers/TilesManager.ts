@@ -23,7 +23,7 @@ export class TilesManager{
         if(tiles)
             this.tiles = tiles
         else
-            this.generate_tiles();
+            this.tiles = TilesManager.generate_empty_grid(this.config);
 
     }
     public tile(pos : Vector2D): Tile{
@@ -94,12 +94,15 @@ export class TilesManager{
     }
 
 
-    private generate_tiles(){
-        const size = this.config.properties.width * this.config.properties.height;
+    public static generate_empty_grid(config : BoardConfig) : Tile[]{
+        const tmp = []
+        const size = config.properties.width * config.properties.height;
+        tmp.length = size;
         for (let index = 0; index < size; index++)
         {
-            this.tiles[index] = new Tile(this.to_coord(index));
+            tmp[index] = new Tile(to_coord(index, config.properties.width));
         }
+        return tmp;
     }
 
 

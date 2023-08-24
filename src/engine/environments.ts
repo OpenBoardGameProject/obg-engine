@@ -1,5 +1,6 @@
 import { type } from "os";
 import { GameManager } from "../managers/GameManager";
+import { Tile } from "./tile";
 
 enum Dir{
     NO_DIR = 0,
@@ -27,6 +28,7 @@ interface EngineObject {
 type Rule = {
     name : string,
     check_victory : (context : GameManager) => Color | undefined
+    initial_tiles : (context : GameManager) => Tile[]
 }
 
 export { Dir , EngineObject, Color};

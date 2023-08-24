@@ -5,16 +5,9 @@ import { Vector2D } from "../engine/math";
 import { Board } from "../engine/board";
 import { TilesManager } from "./TilesManager";
 import { Logger } from "../utils/Logger";
-import { Pawn } from "../game_objects/base_objects/Pawn";
-import test_pawn from "../config/pawn_template.json"
-import test_item from "../config/item_template.json"
-import test_building from "../config/building_template.json"
-import { Item } from "../game_objects/base_objects/Item";
-import { Building } from "../game_objects/base_objects/Building";
 import { CheckObject, CheckPawnColor, CheckTurn, CheckVictory } from "../engine/preconditionners/logic_cond";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";
-import { PrintPositions } from "../utils/BoardVisualization";
 
 class GameManager implements EngineObject {
     log_tag?: string = "GAME_MANAGER";
@@ -38,14 +31,11 @@ class GameManager implements EngineObject {
         if(tile_manager)
             this.__tiles_manager = tile_manager
         else
-            this.__tiles_manager = new TilesManager(this.board);
+            this.__tiles_manager = new TilesManager(this.board,this.rule.initial_tiles(this));
 
-        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.BLUE, this), new Vector2D(3,0))
-        this.tiles_manager.dev_addpawn(new Pawn(test_pawn, Color.RED, this), new Vector2D(2,0))
-        this.tiles_manager.dev_additem(new Item(test_item, Color.WHITE, this), new Vector2D(1,0))
-        this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE, this), new Vector2D(0,1))
-        this.tiles_manager.dev_addbuilding(new Building(test_building, Color.WHITE, this), new Vector2D(1,1))
-        
+        this.__tiles_manager.tiles
+
+  
         Logger.log(this, "Game Manager Initialized");
     }
 
