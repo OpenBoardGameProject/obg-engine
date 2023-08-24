@@ -1,0 +1,16 @@
+{
+    "id":"template_board",
+    "apparence": {
+        "colors":
+        [
+            "#FFFFFF",
+            "#FF0000",
+            "#0000FF"
+        ] 
+    },
+    "properties": {
+        "width": 5,
+        "height": 5
+    }
+
+}
