@@ -4,7 +4,7 @@ import { PrintBoard, PrintPositions } from "./BoardVisualization";
 import * as readline from "readline";
 
 //CONFIG
-import { AttackCommand, ConsoleCommand, MoveCommand, NewTurn, PrintCommand, QuitCommand, SpawnCommand } from "./ConsoleCommands";
+import { AttackCommand, ConsoleCommand, HelpCommand, MoveCommand, NewTurn, PrintCommand, QuitCommand, SpawnCommand } from "./ConsoleCommands";
 import { Color } from "../engine/environments";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";
@@ -28,9 +28,10 @@ class ConsoleView implements GameManagerEvents{
             new MoveCommand(this.game),
             new PrintCommand(this.game),
             new AttackCommand(this.game),
-            new QuitCommand(this.game)
+            new QuitCommand(this.game),
+            
         ]
-
+        this.__commands.push(new HelpCommand(this.game, this.__commands))
         this.player_1 = new GameInterface(this.game, player_1)
         this.player_2 = new GameInterface(this.game, player_2)
 
@@ -123,4 +124,4 @@ class DevConsoleView extends ConsoleView{
     
 }
 
-export {DevConsoleView}
+export {DevConsoleView, ConsoleView}

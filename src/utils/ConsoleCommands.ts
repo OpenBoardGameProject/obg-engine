@@ -48,7 +48,7 @@ class ConsoleCommand {
 
 class MoveCommand extends ConsoleCommand{
     constructor(context : GameManager){
-        super("move", 2, "move src dst")
+        super("move", 2, "move src dst  ->  Move object from src to dst")
     }
 
     execute(player : GameInterface, ...args : string[]) : ConsoleCommand{
@@ -67,7 +67,7 @@ class MoveCommand extends ConsoleCommand{
 
 class AttackCommand extends ConsoleCommand{
     constructor(context : GameManager){
-        super("attack", 2, "attack src dst")
+        super("attack", 2, "attack src dst  ->  Attack from src to dst")
     }
 
     execute(player : GameInterface, ...args : string[]) : ConsoleCommand{
@@ -86,7 +86,7 @@ class AttackCommand extends ConsoleCommand{
 
 class PrintCommand extends ConsoleCommand{
     constructor(context : GameManager){
-        super("print", 1, "print")
+        super("print", 1, "print pos ->  Print object at pos \nor print possible moves/attacks (print move/attack pos [range])")
     }
 
     execute(player : GameInterface, ...args : string[]) : ConsoleCommand{
@@ -134,7 +134,7 @@ class PrintCommand extends ConsoleCommand{
 
 class SpawnCommand extends ConsoleCommand{
     constructor(public context : GameManager){
-        super("spawn", 2, "spawn pawn pos")
+        super("spawn", 2, "spawn pawn pos  ->  Spawn a pawn at pos")
     }
 
     execute(player : GameInterface, ...args : string[]) : ConsoleCommand{
@@ -168,7 +168,7 @@ class SpawnCommand extends ConsoleCommand{
 
 class QuitCommand extends ConsoleCommand{
     constructor(context : GameManager){
-        super("quit", 0, "quit")
+        super("quit", 0, "quit  ->  Quit the game")
     }
 
     execute(player : GameInterface, ...args : string[]) : ConsoleCommand {
@@ -179,7 +179,7 @@ class QuitCommand extends ConsoleCommand{
 
 class NewTurn extends ConsoleCommand{
     constructor(context : GameManager){
-        super("newturn", 0, "newturn")
+        super("newturn", 0, "newturn  ->  Start a new turn")
     }
 
     execute(player : GameInterface, ...args : string[]) : ConsoleCommand {
@@ -188,5 +188,21 @@ class NewTurn extends ConsoleCommand{
     }
 }
 
+class HelpCommand extends ConsoleCommand{
+    constructor(context : GameManager, public commands : ConsoleCommand[]){
+        super("help", 0, "help  ->  Display all commands")
+    }
 
-export {ConsoleCommand, MoveCommand, AttackCommand, PrintCommand, SpawnCommand, QuitCommand, NewTurn}
+    execute(player: GameInterface, ...args: string[]): ConsoleCommand {
+        console.log("------------------")
+        console.log("Commands :  ")
+        for(let command of this.commands){
+            console.log("\x1b[36m" + command.name + "\x1b[0m : " + command.description + "\n")
+        }
+        console.log("Enter 's' to switch player")
+        console.log("------------------")
+        return this
+    }
+}
+
+export {ConsoleCommand, MoveCommand, AttackCommand, PrintCommand, SpawnCommand, QuitCommand, NewTurn, HelpCommand}
