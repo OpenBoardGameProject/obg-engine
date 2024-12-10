@@ -5,7 +5,7 @@ import { Color } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 import { CurrentTile } from "../engine/preconditionners/get_cond";
 import { Tile } from "../engine/tile";
-import { GameManager } from "../managers/GameManager";
+import { GameManager } from "../managers/game_manager";
 
 
 interface IGameObject extends EngineObject{

@@ -1,7 +1,7 @@
 import { Vector2D } from "../engine/math"
-import { Pawn } from "../game_objects/base_objects/Pawn"
-import { GameManager } from "../managers/GameManager"
-import { PrintPositions } from "./BoardVisualization"
+import { Pawn } from "../game_objects/base_objects/pawn"
+import { GameManager } from "../managers/game_manager"
+import { PrintPositions } from "./board_visualization"
 
 
 //CONFIG
@@ -9,9 +9,9 @@ import test_pawn from '../config/pawn_template.json'
 import test_item from '../config/item_template.json'
 import test_building from '../config/building_template.json'
 import { Color } from "../engine/environments"
-import { Item } from "../game_objects/base_objects/Item"
-import { Building } from "../game_objects/base_objects/Building"
-import { GameInterface } from "../managers/GameInterface"
+import { Item } from "../game_objects/base_objects/item"
+import { Building } from "../game_objects/base_objects/building"
+import { GameInterface } from "../managers/game_interface"
 
 const WRONG_ARGS_ERROR = {'message' : "Wrong number of arguments", 'is_error' : true}
 const COMMAND_OK = {'message' : "Command success", 'is_error' : false}

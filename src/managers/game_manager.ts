@@ -3,8 +3,8 @@ import { Color, EngineObject, Rule } from "../engine/environments";
 import { Vector2D } from "../engine/math";
 
 import { Board } from "../engine/board";
-import { TilesManager } from "./TilesManager";
-import { Logger } from "../utils/Logger";
+import { TilesManager } from "./tiles_managers";
+import { Logger } from "../utils/logger";
 import { CheckObject, CheckPawnColor, CheckTurn, CheckVictory } from "../engine/preconditionners/logic_cond";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";

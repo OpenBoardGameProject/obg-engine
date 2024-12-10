@@ -1,5 +1,5 @@
 import { IGameObject } from "../../game_objects/interfaces";
-import { Pawn } from "../../game_objects/base_objects/Pawn";
+import { Pawn } from "../../game_objects/base_objects/pawn";
 import { Vector2D } from "../math";
 
 

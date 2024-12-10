@@ -1,7 +1,7 @@
-import { Pawn } from "../../game_objects/base_objects/Pawn";
-import { GameInterface } from "../../managers/GameInterface";
-import { GameManager } from "../../managers/GameManager";
-import { Logger } from "../../utils/Logger";
+import { Pawn } from "../../game_objects/base_objects/pawn";
+import { GameInterface } from "../../managers/game_interface";
+import { GameManager } from "../../managers/game_manager";
+import { Logger } from "../../utils/logger";
 import { Vector2D } from "../math";
 import { Player } from "../player";
 

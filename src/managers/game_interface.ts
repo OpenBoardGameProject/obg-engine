@@ -4,7 +4,7 @@ import { Vector2D, to_index } from "../engine/math";
 import { Player } from "../engine/player";
 import { CheckTurn } from "../engine/preconditionners/logic_cond";
 import { Tile } from "../engine/tile";
-import { GameManager } from "./GameManager";
+import { GameManager } from "./game_manager";
 
 const EMPTY_TILE = new Tile(new Vector2D(-1,-1), null)
 

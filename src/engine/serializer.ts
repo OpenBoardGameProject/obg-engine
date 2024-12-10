@@ -1,9 +1,9 @@
-import { GameManager } from "../managers/GameManager";
+import { GameManager } from "../managers/game_manager";
 import { BoardConfig } from "../config/config_types";
 import { to_index } from "./math";
 import { stringify } from "querystring";
 import { IGameObject } from "../game_objects/interfaces";
-import { TilesManager } from "../managers/TilesManager";
+import { TilesManager } from "../managers/tiles_managers";
 
 export type ExportedData = {
     config : BoardConfig,

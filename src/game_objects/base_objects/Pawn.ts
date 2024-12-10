@@ -1,15 +1,15 @@
 import { DataObject } from "../interfaces";
-import { Item } from "./Item";
+import { Item } from "./item";
 import { PawnConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
 import { Vector2D } from "../../engine/math";
-import { Logger } from "../../utils/Logger";
+import { Logger } from "../../utils/logger";
 import { OnlyPawn } from "../../engine/preconditionners/type_cond";
 import { Tile } from "../../engine/tile";
 import { CurrentTile } from "../../engine/preconditionners/get_cond";
 import { HasBeenPlayed, TriggerPlayed } from "../../engine/preconditionners/logic_cond";
-import { GameObject } from "../GameObject";
-import { GameManager } from "../../managers/GameManager";
+import { GameObject } from "../game_object";
+import { GameManager } from "../../managers/game_manager";
 
 class Pawn extends GameObject implements DataObject{
     

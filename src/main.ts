@@ -1,7 +1,7 @@
 import { BoardConfig } from "./config/config_types";
 import { RESOURCE } from "./engine/config";
-import { GameManager } from "./managers/GameManager";
-import { DevConsoleView, ConsoleView } from "./utils/ConsoleView";
+import { GameManager } from "./managers/game_manager";
+import { DevConsoleView, ConsoleView } from "./utils/console_view";
 
 
 var console_type = process.argv.length < 2 ?  'regular' : process.argv[2]

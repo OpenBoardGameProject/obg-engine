@@ -1,7 +1,7 @@
 import { BoardConfig } from "../config/config_types";
 import { Board } from "../engine/board";
 import { Vector2D, to_coord } from "../engine/math";
-import { TilesManager } from "../managers/TilesManager";
+import { TilesManager } from "../managers/tiles_managers";
 import { Tile } from "../engine/tile";
 
 function PrintPositions(board : Board,pos : Vector2D[], render : (pos : Vector2D, is_pos : boolean) => string = (pos, is_pos) => is_pos ? "[X]" : "[O]"){

@@ -1,5 +1,5 @@
 import { type } from "os";
-import { GameManager } from "../managers/GameManager";
+import { GameManager } from "../managers/game_manager";
 import { Tile } from "./tile";
 
 enum Dir{

@@ -1,5 +1,5 @@
 import { Config } from "../config/config_types";
-import { Logger } from "../utils/Logger";
+import { Logger } from "../utils/logger";
 import { EngineObject, Rule } from "./environments";
 import * as fs from 'fs';
 import * as pathObj from 'path';

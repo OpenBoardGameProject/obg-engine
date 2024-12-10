@@ -1,12 +1,12 @@
 import { Rule, Color} from "../engine/environments"
-import { Pawn } from "../game_objects/base_objects/Pawn"
-import { GameManager } from "../managers/GameManager"
+import { Pawn } from "../game_objects/base_objects/pawn"
+import { GameManager } from "../managers/game_manager"
 import { RESOURCE } from "../engine/config"
 import { Tile } from "../engine/tile"
-import { Item } from "../game_objects/base_objects/Item"
+import { Item } from "../game_objects/base_objects/item"
 import { BuildingConfig, ItemConfig, PawnConfig } from "../config/config_types"
-import { Building } from "../game_objects/base_objects/Building"
-import { TilesManager } from "../managers/TilesManager"
+import { Building } from "../game_objects/base_objects/building"
+import { TilesManager } from "../managers/tiles_managers"
 
 export const RULE : Rule = {
     name : "dev_rule",

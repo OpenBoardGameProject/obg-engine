@@ -1,16 +1,16 @@
 import { exit } from "process";
-import { GameManager } from "../managers/GameManager";
-import { PrintBoard, PrintPositions } from "./BoardVisualization";
+import { GameManager } from "../managers/game_manager";
+import { PrintBoard, PrintPositions } from "./board_visualization";
 import * as readline from "readline";
 
 //CONFIG
-import { AttackCommand, ConsoleCommand, HelpCommand, MoveCommand, NewTurn, PrintCommand, QuitCommand, SpawnCommand } from "./ConsoleCommands";
+import { AttackCommand, ConsoleCommand, HelpCommand, MoveCommand, NewTurn, PrintCommand, QuitCommand, SpawnCommand } from "./console_commands";
 import { Color } from "../engine/environments";
 import { GameManagerEvents } from "../engine/events";
 import { Player } from "../engine/player";
 
 import { player_1, player_2 } from "../engine/config";
-import { GameInterface } from "../managers/GameInterface";
+import { GameInterface } from "../managers/game_interface";
 
 class ConsoleView implements GameManagerEvents{
     private rl ;

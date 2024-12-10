@@ -2,9 +2,9 @@ import { ItemConfig } from "../../config/config_types";
 import { Color } from "../../engine/environments";
 import { OnlyPawn } from "../../engine/preconditionners/type_cond";
 import { DataObject } from "../interfaces";
-import { GameObject } from "../GameObject";
-import { Pawn } from "./Pawn";
-import { GameManager } from "../../managers/GameManager";
+import { GameObject } from "../game_object";
+import { Pawn } from "./pawn";
+import { GameManager } from "../../managers/game_manager";
 
 class Item extends GameObject implements DataObject{
     config : ItemConfig;
