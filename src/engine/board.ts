@@ -14,7 +14,7 @@ import { Vector2D } from "./math";
 class Board
 {
     public config : BoardConfig;
-    private __adj_matrix_move: number[][]
+    private __adj_matrix_move: number[][];
 
     get adj_matrix_move(): number[][] {
         return this.__adj_matrix_move;
@@ -34,11 +34,11 @@ class Board
     
     public to_index(pos : Vector2D): number
     {
-        return to_index(pos, this.config.properties.width)
+        return to_index(pos, this.config.properties.width);
     }
     public to_coord(index: number): Vector2D
     {
-        return to_coord(index, this.config.properties.width)
+        return to_coord(index, this.config.properties.width);
     }
 
     private generate_adj_matrix_move() {
@@ -107,12 +107,12 @@ class Board
     public possible_moves_range(pos : Vector2D, range : number = 1): Vector2D[]
     {
         if(range == 0)
-            return []
-        const moves = this.possible_moves(pos)
-        const moves_filtered_unique = moves.filter((move) => !move.equals(pos))
-        const moves_rec = moves_filtered_unique.flatMap((move) => this.possible_moves_range(move, range - 1))
-        const returned = [...moves_filtered_unique, ...moves_rec]
-        return returned
+            return [];
+        const moves = this.possible_moves(pos);
+        const moves_filtered_unique = moves.filter((move) => !move.equals(pos));
+        const moves_rec = moves_filtered_unique.flatMap((move) => this.possible_moves_range(move, range - 1));
+        const returned = [...moves_filtered_unique, ...moves_rec];
+        return returned;
     }
 
     

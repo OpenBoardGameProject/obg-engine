@@ -4,7 +4,7 @@ class Player implements EngineObject{
     log_tag?: string = "PLAYER";
 
 
-    constructor(public color : Color, public name : string = 'Default'){
+    constructor(public color : Color, public name : string = "Default"){
 
     }
 

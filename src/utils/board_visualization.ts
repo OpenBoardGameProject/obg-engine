@@ -14,7 +14,7 @@ function PrintPositions(board : Board,pos : Vector2D[], render : (pos : Vector2D
 
     //print a board with the positions
     
-    let filler : number[] = [];
+    const filler : number[] = [];
     filler.length = size;
     filler.fill(0,0,size);
 
@@ -28,11 +28,11 @@ function PrintPositions(board : Board,pos : Vector2D[], render : (pos : Vector2D
     //print
     filler.map((_,i) => {
         if (i % width == 0)
-            process.stdout.write("\n")
-        let color = colors[filler[i]];
+            process.stdout.write("\n");
+        const color = colors[filler[i]];
         process.stdout.write(color + `${render(board.to_coord(i), filler[i] == 1)}` + reset);
     });
-    process.stdout.write("\n")   
+    process.stdout.write("\n");   
 }
 
 function PrintBoard(tiles : Tile[], board : Board){
@@ -49,29 +49,29 @@ function PrintBoard(tiles : Tile[], board : Board){
         "\x1b[31m",
         //blue
         "\x1b[34m",
-    ]
+    ];
     
     let filler : number[] = [];
     filler.length = size;
     filler.fill(0,0,size);
     filler = filler.map((_,i) => {
-        const tile = tiles[i]
-        return (tile.has_object ? 1 : 0)
+        const tile = tiles[i];
+        return (tile.has_object ? 1 : 0);
     });
 
 
     //print
     filler.map((x,i) => {
         if (i % width == 0)
-            process.stdout.write("\n")
+            process.stdout.write("\n");
         if (x === 1){
-            let tile : Tile = tiles[i]
+            const tile : Tile = tiles[i];
             process.stdout.write(`${color_code[tile.object.color]}[${tile.object.toRepr().padEnd(2," ")}]${reset_code}`);
         }else{
             process.stdout.write("[  ]");
         }
     });
-    process.stdout.write("\n")  
+    process.stdout.write("\n");  
 
 
 }
@@ -79,4 +79,4 @@ function PrintBoard(tiles : Tile[], board : Board){
 
 
 
-export { PrintPositions , PrintBoard};
+export { PrintPositions , PrintBoard };

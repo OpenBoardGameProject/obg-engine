@@ -11,12 +11,12 @@ export class Building extends GameObject{
 
 
     constructor(config: BuildingConfig, color: Color, context : GameManager){
-        super(config, color, context)
+        super(config, color, context);
     }
 
     //Engine
 
     toString(): string {
-        return "BUILDING()"
+        return "BUILDING()";
     }
 }

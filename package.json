@@ -13,8 +13,8 @@
     "start": "node dist/main.js",
     "watch": "tsc --outDir dist -p ./tsconfig.json --watch",
     "clean": "rm -rf dist",
-    "eslint": "eslint src/*.ts",
-    "esfix": "eslint --fix src/*.ts"
+    "eslint": "eslint \"src/**/*.ts\"",
+    "esfix": "eslint --fix \"src/**/*.ts\""
   },
   "author": "",
   "license": "ISC",

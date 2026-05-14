@@ -6,8 +6,8 @@ export class Logger {
         green: "\x1b[32m",
         yellow: "\x1b[33m",
         blue: "\x1b[34m",
-        reset: "\x1b[0m"
-    }
+        reset: "\x1b[0m",
+    };
 
     public static log(obj : EngineObject, message: string){
         const tag = obj.log_tag ? `[${obj.log_tag}]` : "";

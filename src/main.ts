@@ -4,12 +4,10 @@ import { GameManager } from "./managers/game_manager";
 import { DevConsoleView, ConsoleView } from "./utils/console_view";
 
 
-var console_type = process.argv.length < 2 ?  'regular' : process.argv[2]
-const gameManager = new GameManager(RESOURCE.getRule('dev_rule'), RESOURCE.getConfig('template_board') as BoardConfig);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-if (console_type == 'dev'){
+const console_type = process.argv.length < 2 ?  "regular" : process.argv[2];
+const gameManager = new GameManager(RESOURCE.getRule("dev_rule"), RESOURCE.getConfig("template_board") as BoardConfig);
+if (console_type == "dev"){
     const consoleView = new DevConsoleView(gameManager);
 }else{
     const consoleView = new ConsoleView(gameManager);
 }
-

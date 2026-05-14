@@ -31,5 +31,5 @@ type Rule = {
     initial_tiles : (context : GameManager) => Tile[]
 }
 
-export { Dir , EngineObject, Color};
+export { Dir , EngineObject, Color };
 export type { Rule };

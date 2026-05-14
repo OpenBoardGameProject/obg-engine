@@ -1,7 +1,7 @@
-import { Pawn } from "../../game_objects/base_objects/pawn";
+import { Pawn } from "../../game_objects/base_objects/Pawn";
 import { GameInterface } from "../../managers/game_interface";
 import { GameManager } from "../../managers/game_manager";
-import { Logger } from "../../utils/logger";
+import { Logger } from "../../utils/Logger";
 import { Vector2D } from "../math";
 import { Player } from "../player";
 
@@ -9,9 +9,9 @@ import { Player } from "../player";
 function CheckTurn(originalMethod : any, context : ClassMethodDecoratorContext){
     function tmp(this : GameInterface,...args : any[]){
         if(this.is_my_turn)
-            return originalMethod.call(this, ...args)
+            return originalMethod.call(this, ...args);
         else{
-            Logger.error(this, "Not your turn")
+            Logger.error(this, "Not your turn");
             return false;  
         }
     }
@@ -23,9 +23,9 @@ function CheckTurn(originalMethod : any, context : ClassMethodDecoratorContext){
 function CheckObject(originalMethod : any, context : ClassMethodDecoratorContext){
     function tmp(this : GameManager,src : Vector2D, ...args : any[]){
         if(this.tiles_manager.tile(src).object)
-            return originalMethod.call(this,src, ...args)
+            return originalMethod.call(this,src, ...args);
         else{
-            Logger.error(this, "No object on tile")
+            Logger.error(this, "No object on tile");
             return false;  
         } 
     }
@@ -35,9 +35,9 @@ function CheckObject(originalMethod : any, context : ClassMethodDecoratorContext
 function CheckPawnColor(originalMethod : any, context : ClassMethodDecoratorContext){
     function tmp(this : GameManager,src : Vector2D, ...args : any[]){
         if(this.current_turn == this.tiles_manager.tile(src).object.color)
-            return originalMethod.call(this,src, ...args)
+            return originalMethod.call(this,src, ...args);
         else{
-            Logger.error(this, "Not your color")
+            Logger.error(this, "Not your color");
             return false;  
         } 
     }
@@ -46,12 +46,12 @@ function CheckPawnColor(originalMethod : any, context : ClassMethodDecoratorCont
 
 function CheckVictory(originalMethod : any, context : ClassMethodDecoratorContext){
     function tmp(this : GameManager, ...args : any[]){
-        const result = originalMethod.call(this, ...args)
-        const color_victory = this.rule.check_victory(this)
+        const result = originalMethod.call(this, ...args);
+        const color_victory = this.rule.check_victory(this);
         if (color_victory){
-            this.notify((observer) => observer.onGameEnd ? observer.onGameEnd(color_victory) : null )
+            this.notify((observer) => observer.onGameEnd ? observer.onGameEnd(color_victory) : null );
         }
-        return result
+        return result;
         
     }
     return tmp;
@@ -62,26 +62,25 @@ function CheckVictory(originalMethod : any, context : ClassMethodDecoratorContex
 //PAWN PRECOND
 
 function TriggerPlayed(originalMethod : any, context : ClassMemberDecoratorContext){
-    function tmp (this : Pawn, ...args : any[]){
+    function tmp(this : Pawn, ...args : any[]){
         if(!process.env.INFINITY_TURN)
-            this.hasBeenPlayed = true
-        return originalMethod.call(this, ...args)
+            this.hasBeenPlayed = true;
+        return originalMethod.call(this, ...args);
     }
-    return tmp
+    return tmp;
 }
 
 function HasBeenPlayed(originalMethod : any, context : ClassMemberDecoratorContext){
-    function tmp (this : Pawn, ...args : any[]){
+    function tmp(this : Pawn, ...args : any[]){
         if(!this.hasBeenPlayed)
-            return originalMethod.call(this, ...args)
+            return originalMethod.call(this, ...args);
        else{
-            Logger.error(this, "Pawn has already been played")
-            return false
+            Logger.error(this, "Pawn has already been played");
+            return false;
         }
     }
-    return tmp
+    return tmp;
 }
 
 
-export {CheckPawnColor, CheckVictory, CheckTurn, TriggerPlayed, HasBeenPlayed, CheckObject}
-
+export { CheckPawnColor, CheckVictory, CheckTurn, TriggerPlayed, HasBeenPlayed, CheckObject };

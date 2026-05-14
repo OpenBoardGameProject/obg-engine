@@ -29,8 +29,8 @@ export class Vector2D implements Point{
     }
 
     static from_str(str : string) : Vector2D{
-        str = str.replace('(', '').replace(')', '');
-        let [x, y] = str.split(',').map(x => parseInt(x));
+        str = str.replace("(", "").replace(")", "");
+        const [x, y] = str.split(",").map(x => parseInt(x));
         return new Vector2D(x, y);
     }
     

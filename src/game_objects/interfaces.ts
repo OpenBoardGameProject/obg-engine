@@ -1,4 +1,3 @@
-
 import { GameObjectConfig } from "../config/config_types";
 import { EngineObject } from "../engine/environments";
 import { Color } from "../engine/environments";
@@ -7,37 +6,33 @@ import { CurrentTile } from "../engine/preconditionners/get_cond";
 import { Tile } from "../engine/tile";
 import { GameManager } from "../managers/game_manager";
 
+interface IGameObject extends EngineObject {
+  color: Color;
+  context: GameManager;
+  toString(): string;
+  config: GameObjectConfig;
+  toRepr(): string;
 
-interface IGameObject extends EngineObject{
-    color: Color;
-    context : GameManager;
-    toString(): string;
-    config: GameObjectConfig;
-    toRepr() : string;
+  //Game Logic
+  can_pass_through(incoming: IGameObject): boolean;
+  is_walkable(incoming: IGameObject): boolean;
+  canMove(src: Vector2D, dst: Vector2D): boolean;
+  canAttack(src: Vector2D, dst: Vector2D): boolean;
+  is_attackable(incoming: IGameObject): boolean;
+  is_dead(tile?: Tile): boolean;
+  is_transparent(): boolean;
 
-    //Game Logic
-    can_pass_through(incoming : IGameObject) : boolean;
-    is_walkable(incoming : IGameObject) : boolean;
-    canMove(src : Vector2D, dst : Vector2D) : boolean;
-    canAttack(src : Vector2D, dst : Vector2D) : boolean;
-    is_attackable(incoming : IGameObject) : boolean;
-    is_dead(tile? : Tile) : boolean;
-    is_transparent() : boolean;
-
-    //Action
-    processIncomingObject(object : IGameObject) : void;
-    processMove() : void;
-    processIncomingAttack(object : IGameObject) : void;
-    processIncomingDefense(object : IGameObject) : void;
-    processDeath() : void;
-    processNewTurn() : void;
-
+  //Action
+  processIncomingObject(object: IGameObject): void;
+  processMove(): void;
+  processIncomingAttack(object: IGameObject): void;
+  processIncomingDefense(object: IGameObject): void;
+  processDeath(): void;
+  processNewTurn(): void;
 }
 
 interface DataObject extends EngineObject {
-    toString(): string;
+  toString(): string;
 }
 
-
-export { IGameObject, DataObject};
-
+export { IGameObject, DataObject };
